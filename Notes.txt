@@ -3,7 +3,7 @@
 React+TypeScript的範例網站
 2025-10-01建立使用(已重建確定OK)
 開發使用
-
+cls
 運行指令
 [npm run dev]
 
@@ -13,14 +13,21 @@ React+TypeScript的範例網站
 
 
 首頁的內容放在
-my-react-app>src\app.tsx
+專案>src\app.tsx
 
 裡面的第9行開始的
  return
  (
 
 //--這邊是顯示的網頁內容//--
-)
+)cls
+
+
+========出版指令==========
+npm install        # 確保依賴完整
+npm run build      # 打包出 dist/
+npm run deploy     # 部署至 GitHub Pages
+=============================
 
 ===================
-最後異動:2025-10-04
+最後異動:2025-10-09
