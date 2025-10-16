@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>TypeScript Import / Export 運作關係圖教學</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+      background-color: #f7f8fa;
+      color: #333;
+      line-height: 1.6;
+      padding: 30px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #005a9c;
+    }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+      margin: 25px auto;
+      width: 85%;
+      max-width: 950px;
+    }
+
+    pre {
+      background: #2d2d2d;
+      color: #eaeaea;
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    td {
+      vertical-align: middle;
+      padding: 20px;
+      border: none;
+      position: relative;
+    }
+
+    .module {
+      background-color: #e3f2fd;
+      border: 2px solid #2196f3;
+      border-radius: 12px;
+      padding: 20px;
+      font-weight: bold;
+      color: #0d47a1;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.15);
+    }
+
+    /* 箭頭線條 */
+    .arrow {
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      width: 2px;
+      height: 40px;
+      background-color: #2196f3;
+      transform: translateX(-50%);
+    }
+
+    .arrow::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -6px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #2196f3;
+      transform: translateX(-50%);
+    }
+
+    /* 多模組箭頭樣式 */
+    .branch-arrow {
+      width: 2px;
+      height: 40px;
+      background-color: #2196f3;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .branch-arrow::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -6px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #2196f3;
+      transform: translateX(-50%);
+    }
+
+    footer {
+      text-align: center;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+
+    hr {
+      border: none;
+      border-top: 2px dashed #ccc;
+      margin: 40px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>TypeScript Import / Export 運作關係教學</h1>
+
+  <!-- 第一部分：單一模組 -->
+  <div class="section">
+    <h2>📘 一、單一模組範例</h2>
+    <p><b>檔案 1：</b> <code>src/models/User.ts</code></p>
+    <pre><code>export class User {
+  constructor(
+    public name: string,
+    public age: number,
+    public gender: string
+  ) {}
+}</code></pre>
+
+    <p><b>檔案 2：</b> <code>src/main.ts</code></p>
+    <pre><code>import { User } from './models/User';
+
+const u = new User('Alice', 25, 'F');
+console.log(u);
+</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>📊 二、Import / Export 單模組關係圖</h2>
+    <table>
+      <tr>
+        <td>
+          <div class="module">User.ts<br>（定義與 export）</div>
+          <div class="arrow"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="module">main.ts<br>（import 使用）</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>📖 三、運作說明</h2>
+    <ul>
+      <li><b>export：</b> 將模組內的類別、函式或變數公開給外部使用。</li>
+      <li><b>import：</b> 從其他模組引入先前 export 的內容。</li>
+      <li><b>模組（Module）：</b> 每個 .ts 檔案都是一個模組，互相之間可透過 import/export 溝通。</li>
+      <li><b>對應規則：</b> <code>import { User } from './models/User'</code> 會自動尋找同路徑下的 <code>User.ts</code> 或 <code>User.js</code>。</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 第二部分：多模組範例 -->
+  <div class="section">
+    <h2>🧩 四、多模組進階範例</h2>
+    <p><b>檔案 1：</b> <code>src/models/User.ts</code></p>
+    <pre><code>export class User {
+  constructor(public name: string, public age: number) {}
+}</code></pre>
+
+    <p><b>檔案 2：</b> <code>src/models/Product.ts</code></p>
+    <pre><code>export class Product {
+  constructor(public id: number, public title: string, public price: number) {}
+}</code></pre>
+
+    <p><b>檔案 3：</b> <code>src/main.ts</code></p>
+    <pre><code>import { User } from './models/User';
+import { Product } from './models/Product';
+
+const user = new User('Bob', 30);
+const product = new Product(1, 'Keyboard', 1200);
+
+console.log(user);
+console.log(product);
+</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🧭 五、多模組關係圖</h2>
+    <table>
+      <tr>
+        <td><div class="module">User.ts<br>（export User）</div></td>
+        <td><div class="module">Product.ts<br>（export Product）</div></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div class="branch-arrow"></div></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="module">main.ts<br>（import User 與 Product）</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <footer>
+    © 2025 TypeScript Import/Export 教學圖示整合版 – All rights reserved.
+  </footer>
+
+</body>
+</html>
