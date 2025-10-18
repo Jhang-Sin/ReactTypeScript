@@ -1,0 +1,16 @@
+.SinTable
+{
+    auto-width
+    {
+        width: 100%;  /* 滿寬 */
+        table-layout: fixed;  /* 固定表格佈局 */
+        border-collapse: collapse;    /* 合併邊框 */
+    }
+
+    auto-width th, .auto-width td
+    {    
+        border: 1px solid #0f059c;/* 邊框 */
+        padding: 6px; /* 內邊距 */
+        text-align: center;   /* 置中對齊 */
+    }
+}

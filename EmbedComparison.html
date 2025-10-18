@@ -13,42 +13,35 @@
     h1 {
       text-align: center;
       color: #333;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      background: white;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-      vertical-align: top;
-    }
-    iframe, object {
+    }    
+    
+    iframe, object 
+    {
       width: 100%;
       height: 300px;
       border: 1px solid #999;
     }
-    #embedContainer {
-      border: 1px solid #999;
-      padding: 10px;
+    #embedContainer 
+    {
+      border: 1px solid #999; /* 邊框 */
+      padding: 10px;  /* 內邊距 */
       height: 300px;
-      overflow: auto;
+      overflow: auto; /* 超出部分可滾動 */
       background: #fff;
     }
-    .note {
+    .note 
+    {
       font-size: 0.9em;
       color: #555;
     }
+        
   </style>
+  <link rel="stylesheet" href="./Sin.css" />
 </head>
 <body>
   <h1>嵌入外部 HTML 的三種方式比較</h1>
 
-  <table>
+  <table class="SinTable">
     <tr>
       <th>方式</th>
       <th>程式語法</th>
