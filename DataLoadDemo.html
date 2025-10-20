@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>模擬資料載入教學 - TXT / JSON / API 對照</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #fafafa;
+      margin: 40px;
+      color: #333;
+    }
+
+    h2 {
+      border-left: 6px solid #0078d7;
+      padding-left: 10px;
+      color: #0078d7;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #999;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f3f3f3;
+    }
+
+    .section {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+
+    code {
+      background: #eee;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #c7254e;
+    }
+  </style>
+</head>
+<body>
+  <h1>React 專案資料載入示範</h1>
+  <p>這份教學展示三種方式從外部載入資料（模擬資料庫資料來源）：</p>
+  <ul>
+    <li><b>方式一：</b>載入 <code>.txt</code> 檔案並解析</li>
+    <li><b>方式二：</b>載入 <code>.json</code> 檔案（建議方式）</li>
+    <li><b>方式三：</b>模擬 API 回傳（前端動態生成）</li>
+  </ul>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <h2>方式一：載入 TXT 資料</h2>
+    <p>從 <code>public/data/doctors.txt</code> 讀取，並分行切割成陣列。</p>
+    <table id="table-txt">
+      <thead>
+        <tr><th>姓名</th><th>科別</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <h2>方式二：載入 JSON 資料</h2>
+    <p>從 <code>public/data/doctors.json</code> 以 <code>fetch().then(res.json())</code> 載入。</p>
+    <table id="table-json">
+      <thead>
+        <tr><th>姓名</th><th>科別</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <h2>方式三：模擬 API 回傳</h2>
+    <p>用 JS 直接模擬伺服器端回傳資料。</p>
+    <table id="table-api">
+      <thead>
+        <tr><th>姓名</th><th>科別</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    // === TXT 模擬 ===
+    fetch("data/doctors.txt")
+      .then(res => res.text())
+      .then(text => {
+        const rows = text.split("\n").map(line => line.trim()).filter(Boolean);
+        const tbody = document.querySelector("#table-txt tbody");
+        rows.forEach(line => {
+          const [name, dept] = line.split(",");
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${name}</td><td>${dept}</td>`;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(() => {
+        document.querySelector("#table-txt tbody").innerHTML =
+          `<tr><td colspan="2">⚠️ 找不到 doctors.txt，請確認放在 public/data/ 下</td></tr>`;
+      });
+
+    // === JSON 模擬 ===
+    fetch("data/doctors.json")
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector("#table-json tbody");
+        data.forEach(doc => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${doc.name}</td><td>${doc.department}</td>`;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(() => {
+        document.querySelector("#table-json tbody").innerHTML =
+          `<tr><td colspan="2">⚠️ 找不到 doctors.json，請確認放在 public/data/ 下</td></tr>`;
+      });
+
+    // === 模擬 API ===
+    function fakeApi() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve([
+            { name: "Dr. Huang", department: "Pediatrics" },
+            { name: "Dr. Chang", department: "Orthopedics" },
+            { name: "Dr. Tsai", department: "Dermatology" }
+          ]);
+        }, 500);
+      });
+    }
+
+    fakeApi().then(data => {
+      const tbody = document.querySelector("#table-api tbody");
+      data.forEach(doc => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${doc.name}</td><td>${doc.department}</td>`;
+        tbody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>

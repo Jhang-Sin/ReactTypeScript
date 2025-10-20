@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Wang",
+    "department": "Cardiology",
+    "phone": "02-1234-5678",
+    "email": "wang@hospital.com",
+    "available": ["Mon AM", "Wed PM", "Fri AM"]
+  },
+  {
+    "id": 2,
+    "name": "Dr. Chen",
+    "department": "Neurology",
+    "phone": "02-2234-7788",
+    "email": "chen@hospital.com",
+    "available": ["Tue AM", "Thu AM", "Sat PM"]
+  },
+  {
+    "id": 3,
+    "name": "Dr. Lee",
+    "department": "Surgery",
+    "phone": "02-3345-9922",
+    "email": "lee@hospital.com",
+    "available": ["Mon PM", "Wed PM", "Fri PM"]
+  },
+  {
+    "id": 4,
+    "name": "Dr. Lin",
+    "department": "Family Medicine",
+    "phone": "02-4456-1100",
+    "email": "lin@hospital.com",
+    "available": ["Mon AM", "Tue PM", "Thu AM"]
+  },
+  {
+    "id": 5,
+    "name": "Dr. Wu",
+    "department": "Dermatology",
+    "phone": "02-5566-8811",
+    "email": "wu@hospital.com",
+    "available": ["Wed AM", "Thu PM", "Sat AM"]
+  },
+  {
+    "id": 6,
+    "name": "Dr. Tsai",
+    "department": "Orthopedics",
+    "phone": "02-6677-3322",
+    "email": "tsai@hospital.com",
+    "available": ["Tue AM", "Fri PM", "Sun AM"]
+  }
+]
