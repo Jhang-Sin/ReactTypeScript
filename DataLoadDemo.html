@@ -1,156 +1,193 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>模擬資料載入教學 - TXT / JSON / API 對照</title>
+  <meta charset="UTF-8">
+  <title>模擬資料載入教學 - TXT / JSON / API 對照 + 中英科別展示</title>
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: #fafafa;
-      margin: 40px;
+      font-family: "Microsoft JhengHei", sans-serif;
+      margin: 20px;
+      background-color: #fafafa;
+    }
+
+    h2, h3 {
       color: #333;
+      margin-top: 30px;
     }
 
-    h2 {
-      border-left: 6px solid #0078d7;
-      padding-left: 10px;
-      color: #0078d7;
-    }
-
-    table {
-      border-collapse: collapse;
+    table.SinTable {
       width: 100%;
+      border-collapse: collapse;
       margin-top: 10px;
-    }
-
-    th, td {
-      border: 1px solid #999;
-      padding: 8px;
       text-align: left;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    th {
-      background-color: #f3f3f3;
+    table.SinTable th, table.SinTable td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+    }
+
+    table.SinTable th {
+      background: #f3f3f3;
     }
 
     .section {
       background: #fff;
-      padding: 15px;
-      margin-bottom: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 8px;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
-    code {
-      background: #eee;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: monospace;
-      color: #c7254e;
+    pre {
+      background: #f8f8f8;
+      padding: 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.95em;
+    }
+
+    .lang-btns button {
+      margin-right: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #0078d7;
+      color: white;
+    }
+
+    .lang-btns button:hover {
+      background-color: #005a9e;
     }
   </style>
 </head>
+
 <body>
-  <h1>React 專案資料載入示範</h1>
-  <p>這份教學展示三種方式從外部載入資料（模擬資料庫資料來源）：</p>
-  <ul>
-    <li><b>方式一：</b>載入 <code>.txt</code> 檔案並解析</li>
-    <li><b>方式二：</b>載入 <code>.json</code> 檔案（建議方式）</li>
-    <li><b>方式三：</b>模擬 API 回傳（前端動態生成）</li>
-  </ul>
+  <h2>模擬資料載入教學 - TXT / JSON / API 對照</h2>
+  <p>此頁展示如何使用 <b>fetch()</b> 讀取不同資料來源 (TXT、JSON) 並顯示於表格中，並加入中英科別切換功能。</p>
 
-  <!-- Section 1 -->
+  <!-- ========================= TXT 模擬載入範例 ========================= -->
   <div class="section">
-    <h2>方式一：載入 TXT 資料</h2>
-    <p>從 <code>public/data/doctors.txt</code> 讀取，並分行切割成陣列。</p>
-    <table id="table-txt">
+    <h3>📄 模擬 TXT 載入</h3>
+    <p>從 <code>public/data/doctors.txt</code> 讀取資料並顯示：</p>
+    <button onclick="loadTxtData()">載入 TXT 資料</button>
+    <table class="SinTable" id="txtTable">
       <thead>
-        <tr><th>姓名</th><th>科別</th></tr>
+        <tr>
+          <th>ID</th><th>姓名</th><th>科別</th><th>電話</th><th>Email</th>
+        </tr>
       </thead>
       <tbody></tbody>
     </table>
   </div>
 
-  <!-- Section 2 -->
+  <!-- ========================= JSON 模擬載入範例 ========================= -->
   <div class="section">
-    <h2>方式二：載入 JSON 資料</h2>
-    <p>從 <code>public/data/doctors.json</code> 以 <code>fetch().then(res.json())</code> 載入。</p>
-    <table id="table-json">
+    <h3>📦 模擬 JSON 載入</h3>
+    <p>從 <code>public/data/doctors2.json</code> 讀取資料顯示：</p>
+    <button onclick="loadJsonData()">載入 JSON 資料</button>
+    <table class="SinTable" id="jsonTable">
       <thead>
-        <tr><th>姓名</th><th>科別</th></tr>
+        <tr>
+          <th>ID</th><th>姓名</th><th>科別</th><th>電話</th><th>Email</th>
+        </tr>
       </thead>
       <tbody></tbody>
     </table>
   </div>
 
-  <!-- Section 3 -->
+  <!-- ========================= JSON + 翻譯對照 ========================= -->
   <div class="section">
-    <h2>方式三：模擬 API 回傳</h2>
-    <p>用 JS 直接模擬伺服器端回傳資料。</p>
-    <table id="table-api">
+    <h3>🌐 模擬 JSON + 翻譯對照 (中英科別切換)</h3>
+    <p>結合 <code>doctors2.json</code> + <code>departments.json</code>，實現科別自動翻譯及多語切換。</p>
+    <div class="lang-btns">
+      <button onclick="switchLang('zh')">中文</button>
+      <button onclick="switchLang('en')">English</button>
+    </div>
+
+    <table class="SinTable">
       <thead>
-        <tr><th>姓名</th><th>科別</th></tr>
+        <tr>
+          <th>ID</th><th>姓名</th><th>科別</th><th>電話</th><th>Email</th>
+        </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="doctorTableBody"></tbody>
     </table>
   </div>
 
   <script>
-    // === TXT 模擬 ===
-    fetch("data/doctors.txt")
-      .then(res => res.text())
-      .then(text => {
-        const rows = text.split("\n").map(line => line.trim()).filter(Boolean);
-        const tbody = document.querySelector("#table-txt tbody");
-        rows.forEach(line => {
-          const [name, dept] = line.split(",");
-          const tr = document.createElement("tr");
-          tr.innerHTML = `<td>${name}</td><td>${dept}</td>`;
-          tbody.appendChild(tr);
+    // ==================== TXT 讀取 ====================
+    function loadTxtData() {
+      fetch("data/doctors.txt")
+        .then(res => res.text())
+        .then(text => {
+          const lines = text.trim().split("\n");
+          const tableBody = document.querySelector("#txtTable tbody");
+          tableBody.innerHTML = "";
+          lines.forEach(line => {
+            const [id, name, dept, phone, email] = line.split(",");
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${id}</td><td>${name}</td><td>${dept}</td><td>${phone}</td><td>${email}</td>`;
+            tableBody.appendChild(tr);
+          });
         });
-      })
-      .catch(() => {
-        document.querySelector("#table-txt tbody").innerHTML =
-          `<tr><td colspan="2">⚠️ 找不到 doctors.txt，請確認放在 public/data/ 下</td></tr>`;
-      });
+    }
 
-    // === JSON 模擬 ===
-    fetch("data/doctors.json")
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector("#table-json tbody");
-        data.forEach(doc => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `<td>${doc.name}</td><td>${doc.department}</td>`;
-          tbody.appendChild(tr);
+    // ==================== JSON 讀取 ====================
+    function loadJsonData() {
+      fetch("data/doctors2.json")
+        .then(res => res.json())
+        .then(data => {
+          const tableBody = document.querySelector("#jsonTable tbody");
+          tableBody.innerHTML = "";
+          data.forEach(doc => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${doc.id}</td><td>${doc.name}</td><td>${doc.department}</td><td>${doc.phone}</td><td>${doc.email}</td>`;
+            tableBody.appendChild(tr);
+          });
         });
-      })
-      .catch(() => {
-        document.querySelector("#table-json tbody").innerHTML =
-          `<tr><td colspan="2">⚠️ 找不到 doctors.json，請確認放在 public/data/ 下</td></tr>`;
-      });
+    }
 
-    // === 模擬 API ===
-    function fakeApi() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve([
-            { name: "Dr. Huang", department: "Pediatrics" },
-            { name: "Dr. Chang", department: "Orthopedics" },
-            { name: "Dr. Tsai", department: "Dermatology" }
-          ]);
-        }, 500);
+    // ==================== JSON + 翻譯對照 ====================
+    let doctors = [];
+    let departments = {};
+    let language = "zh";
+
+    function renderTable() {
+      const tableBody = document.getElementById("doctorTableBody");
+      tableBody.innerHTML = "";
+
+      doctors.forEach(doc => {
+        const deptDisplay = departments[doc.department]
+          ? departments[doc.department][language]
+          : doc.department;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${doc.id}</td>
+          <td>${doc.name}</td>
+          <td>${deptDisplay}</td>
+          <td>${doc.phone}</td>
+          <td>${doc.email}</td>
+        `;
+        tableBody.appendChild(tr);
       });
     }
 
-    fakeApi().then(data => {
-      const tbody = document.querySelector("#table-api tbody");
-      data.forEach(doc => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${doc.name}</td><td>${doc.department}</td>`;
-        tbody.appendChild(tr);
-      });
+    function switchLang(lang) {
+      language = lang;
+      renderTable();
+    }
+
+    Promise.all([
+      fetch("data/doctors2.json").then(res => res.json()),
+      fetch("data/departments.json").then(res => res.json())
+    ]).then(([docs, depts]) => {
+      doctors = docs;
+      departments = depts;
+      renderTable();
     });
   </script>
 </body>
