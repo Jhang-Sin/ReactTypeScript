@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React + TypeScript 專案架構圖 (含 HIS 模組)</title>
+<style>
+  body {
+    font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h1, h2 {
+    text-align: center;
+    color: #2c3e50;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .tree {
+    position: relative;
+    margin: 20px 0;
+    padding-left: 20px;
+    border-left: 3px solid #3498db;
+  }
+
+  .node {
+    margin: 8px 0;
+    position: relative;
+    padding-left: 15px;
+    transition: 0.2s;
+  }
+
+  .node::before {
+    content: "├──";
+    position: absolute;
+    left: -20px;
+    color: #7f8c8d;
+  }
+
+  .node:last-child::before {
+    content: "└──";
+  }
+
+  .folder {
+    color: #2980b9;
+    font-weight: bold;
+  }
+
+  .file {
+    color: #2c3e50;
+  }
+
+  .desc {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin-left: 10px;
+  }
+
+  .layer {
+    border-left: 3px dashed #95a5a6;
+    margin: 15px 0 15px 20px;
+    padding-left: 20px;
+  }
+
+  .arrow {
+    text-align: center;
+    color: #16a085;
+    font-weight: bold;
+    margin: 15px 0;
+  }
+
+  .section {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 25px;
+  }
+
+  .node:hover {
+    background-color: #ecf0f1;
+    border-radius: 5px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    color: #888;
+    font-size: 0.9em;
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding: 10px;
+    }
+    .container {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>React + TypeScript 專案架構圖</h1>
+    <h2>含 HIS 模擬醫療系統模組</h2>
+
+    <div class="section">
+      <div class="tree">
+        <div class="folder node">ReactTypeScript/
+          <div class="layer">
+            <div class="folder node">public/
+              <div class="file node">index.html <span class="desc">→ React 入口頁</span></div>
+              <div class="file node">assets/ <span class="desc">→ 靜態圖片/資源</span></div>
+            </div>
+
+            <div class="folder node">src/
+              <div class="file node">App.tsx <span class="desc">→ 主應用組件 (首頁)</span></div>
+              <div class="file node">index.tsx <span class="desc">→ React 入口綁定</span></div>
+
+              <div class="folder node">styles/
+                <div class="file node">global.css <span class="desc">→ 全域樣式設定</span></div>
+              </div>
+
+              <div class="folder node">HIS/ <span class="desc">→ 🏥 醫療系統模組主層</span>
+                <div class="layer">
+                  <div class="file node">index.html <span class="desc">→ 模組首頁或說明文件</span></div>
+                  <div class="file node">register-system.html <span class="desc">→ 模擬掛號系統頁</span></div>
+                  <div class="file node">register-system.css <span class="desc">→ 掛號頁面樣式</span></div>
+                  <div class="file node">doctors.json <span class="desc">→ 模擬醫師資料</span></div>
+                  <div class="file node">data-flow-diagram.html <span class="desc">→ 資料流展示頁</span></div>
+
+                  <div class="folder node">models/
+                    <div class="file node">RegisterModel.ts <span class="desc">→ 掛號邏輯</span></div>
+                    <div class="file node">PatientModel.ts <span class="desc">→ 病歷邏輯</span></div>
+                  </div>
+
+                  <div class="folder node">services/
+                    <div class="file node">RegisterService.ts <span class="desc">→ 掛號 API 操作</span></div>
+                    <div class="file node">DoctorService.ts <span class="desc">→ 醫師資料 API</span></div>
+                  </div>
+
+                  <div class="folder node">components/
+                    <div class="file node">DoctorList.tsx</div>
+                    <div class="file node">RegisterForm.tsx</div>
+                    <div class="file node">AppointmentTable.tsx</div>
+                  </div>
+
+                  <div class="folder node">views/
+                    <div class="file node">RegisterPage.tsx <span class="desc">→ 掛號主頁</span></div>
+                    <div class="file node">SchedulePage.tsx <span class="desc">→ 排班頁面</span></div>
+                    <div class="file node">OrderPage.tsx <span class="desc">→ 醫囑頁面</span></div>
+                  </div>
+
+                  <div class="folder node">docs/
+                    <div class="file node">structure-diagram.html <span class="desc">→ 架構說明頁</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="folder node">utils/
+                <div class="file node">helper.ts <span class="desc">→ 共用工具函式</span></div>
+              </div>
+            </div>
+
+            <div class="file node">package.json <span class="desc">→ 專案設定與依賴</span></div>
+            <div class="file node">tsconfig.json <span class="desc">→ TypeScript 編譯設定</span></div>
+            <div class="file node">README.md</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>資料流說明 (HIS 模組內部)</h2>
+      <div class="tree">
+        <div class="file node">View (React Page)
+          <div class="arrow">↓</div>
+          <div class="file node">Component (UI 顯示層)
+            <div class="arrow">↓</div>
+            <div class="file node">Model (邏輯層)
+              <div class="arrow">↓</div>
+              <div class="file node">Service (資料層)
+                <div class="arrow">↓</div>
+                <div class="file node">JSON / API / DB (資料來源)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      ReactTypeScript HIS 系統架構展示 © 2025 All Rights Reserved.
+    </footer>
+  </div>
+</body>
+</html>

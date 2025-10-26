@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>模擬掛號系統 - 資料流圖</title>
+<style>
+  body {
+    font-family: "Segoe UI", "微軟正黑體", sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    padding: 40px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #2b5797;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    text-align: center;
+    color: #555;
+    font-weight: normal;
+    margin-bottom: 30px;
+  }
+
+  .flow {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+  }
+
+  .layer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0;
+    position: relative;
+  }
+
+  .box {
+    min-width: 200px;
+    background: #eef5ff;
+    border: 2px solid #2b5797;
+    border-radius: 10px;
+    padding: 15px 25px;
+    text-align: center;
+    font-weight: bold;
+    color: #2b5797;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+
+  .arrow {
+    width: 60px;
+    height: 2px;
+    background: #2b5797;
+    position: relative;
+    margin: 0 10px;
+  }
+
+  .arrow::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: -5px;
+    border-left: 8px solid #2b5797;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+  }
+
+  .desc {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    margin-top: 5px;
+  }
+
+  .note {
+    margin-top: 30px;
+    background: #eef5ff;
+    border-left: 4px solid #2b5797;
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .layer {
+      flex-direction: column;
+    }
+    .arrow {
+      transform: rotate(90deg);
+      margin: 15px 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <h1>模擬掛號系統 - 資料流圖</h1>
+  <h2>(React + TypeScript + 模型邏輯分層架構)</h2>
+
+  <div class="flow">
+    <!-- View 層 -->
+    <div class="layer">
+      <div class="box">前端頁面 (View)<br><small>RegisterPage.tsx</small></div>
+      <div class="arrow"></div>
+      <div class="box">掛號 Model<br><small>RegisterModel.ts</small></div>
+    </div>
+    <div class="desc">使用者在掛號頁面點選「確認掛號」→ 呼叫掛號 Model</div>
+
+    <!-- Model 層 -->
+    <div class="layer">
+      <div class="box">掛號 Model<br><small>RegisterModel.ts</small></div>
+      <div class="arrow"></div>
+      <div class="box">API / Service 層<br><small>RegisterService.ts</small></div>
+    </div>
+    <div class="desc">Model 負責掛號邏輯、檢核病歷與門診時段 → 呼叫 API</div>
+
+    <!-- Service 層 -->
+    <div class="layer">
+      <div class="box">API / Service 層<br><small>RegisterService.ts</small></div>
+      <div class="arrow"></div>
+      <div class="box">模擬資料 / 後端 API<br><small>doctors.json / server endpoint</small></div>
+    </div>
+    <div class="desc">Service 發出請求，從模擬資料或伺服器取得結果</div>
+
+    <!-- 回傳 -->
+    <div class="layer">
+      <div class="box">後端回傳結果<br><small>掛號成功 / 失敗原因</small></div>
+      <div class="arrow"></div>
+      <div class="box">前端更新畫面<br><small>顯示掛號結果 / 列印掛號單</small></div>
+    </div>
+    <div class="desc">前端根據 Model 回傳結果更新 UI</div>
+
+    <!-- 附註 -->
+    <div class="note">
+      🔹 <b>開發原則：</b><br>
+      - View 僅負責顯示與基本輸入檢查。<br>
+      - Model 專注於邏輯（掛號、查詢、檢核）。<br>
+      - Service 層統一管理 API 存取，避免重複程式碼。<br>
+      - 模擬資料 (JSON / txt) 可作為暫時後端，日後可無痛切換至真實 API。<br><br>
+      🔹 <b>延伸：</b>  
+      新增功能（如病歷查詢、排班管理）可建立對應 Model & Service，並於 View 呼叫即可。
+    </div>
+  </div>
+</body>
+</html>
