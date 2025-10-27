@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>HIS 登入主頁</title>
+  <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+  <h1>🏥 醫療資訊系統 HIS(模擬/開發練習版)</h1>
+
+  <div id="login-container">
+    <label for="userSelect">請選擇使用者：</label>
+    <select id="userSelect">
+      <option value="">-- 請選擇 --</option>
+    </select>
+    <button id="loginBtn">登入系統</button>
+  </div>
+
+  <div id="function-area">
+    <h2 id="welcome"></h2>
+    <div id="function-buttons"></div>
+    <div id="no-func" style="display:none;">查無可使用的系統功能</div>
+  </div>
+
+  <script>
+    async function loadData(url) {
+      const res = await fetch(url);
+      return res.json();
+    }
+
+    let users = [], functions = [];
+
+    async function init() {
+      users = await loadData('../data/UserList.txt');
+      functions = await loadData('../data/FunctionButtonList.txt');
+
+      const select = document.getElementById('userSelect');
+      users.filter(u => u.status === 1).forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.id;
+        opt.textContent = `${u.name} (${u.role})`;
+        select.appendChild(opt);
+      });
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const uid = document.getElementById('userSelect').value;
+      const user = users.find(u => u.id === uid && u.status === 1);
+
+      if (!user) {
+        alert('請選擇有效使用者');
+        return;
+      }
+
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('function-area').style.display = 'block';
+      document.getElementById('welcome').textContent = `歡迎 ${user.name} (${user.role})`;
+
+      const funcDiv = document.getElementById('function-buttons');
+      funcDiv.innerHTML = '';
+
+      const available = functions.filter(f => f.status === 1 && f.roles.includes(user.role));
+      if (available.length === 0) {
+        document.getElementById('no-func').style.display = 'block';
+        return;
+      }
+
+      available.forEach(f => {
+        const a = document.createElement('a');
+        a.href = f.page;
+        a.className = 'func-btn';
+        a.textContent = f.name;
+        a.target = '_blank';
+        funcDiv.appendChild(a);
+      });
+    });
+
+    init();
+  </script>
+</body>
+</html>

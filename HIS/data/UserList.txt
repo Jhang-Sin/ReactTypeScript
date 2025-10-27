@@ -1,0 +1,6 @@
+[
+  { "id": "U001", "name": "王小名", "role": "doctor", "status": 1 },
+  { "id": "U002", "name": "李小華", "role": "nurse", "status": 1 },
+  { "id": "U003", "name": "管理者", "role": "admin", "status": 1 },
+  { "id": "U004", "name": "張醫師", "role": "doctor", "status": 0 }
+]

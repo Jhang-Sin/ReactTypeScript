@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vite 路徑解析流程圖（Mermaid）</title>
+
+  <style>
+    body{
+      font-family: "Segoe UI", "Microsoft JhengHei", Arial, sans-serif;
+      background:#f7f9fc;
+      color:#222;
+      margin:20px;
+      padding-bottom:40px;
+    }
+    .container{
+      max-width:1000px;
+      margin:0 auto;
+      background:#fff;
+      border-radius:10px;
+      box-shadow:0 6px 18px rgba(32,33,36,0.06);
+      padding:24px;
+    }
+    h1 { text-align:center; color:#1f6feb; margin-bottom:6px; }
+    p.lead { text-align:center; color:#555; margin-top:0; margin-bottom:18px; }
+    pre.code {
+      background:#f3f6fb;
+      padding:12px;
+      border-radius:6px;
+      overflow:auto;
+      font-family: Consolas, "Courier New", monospace;
+      font-size:14px;
+      line-height:1.5;
+      border-left:4px solid #1f6feb;
+    }
+    .examples { display:flex; gap:12px; flex-wrap:wrap; margin-top:18px; }
+    .card {
+      flex:1 1 300px;
+      background:#fbfdff;
+      border:1px solid #e8eefc;
+      border-radius:8px;
+      padding:12px;
+    }
+    .note {
+      margin-top:18px;
+      background:#eef6ff;
+      border-left:4px solid #1f6feb;
+      padding:12px;
+      border-radius:6px;
+      color:#234;
+    }
+    footer { text-align:center; color:#888; margin-top:16px; font-size:13px; }
+    /* mermaid container sizing */
+    .mermaid { margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vite 專案路徑解析（Mermaid 流程圖）</h1>
+    <p class="lead">說明「/public 與實際網址對應」以及常見 href 用法在本機與 GitHub Pages 的差異。</p>
+
+    <!-- Mermaid graph -->
+    <div class="mermaid">
+      %% Mermaid diagram: 路徑解析流程圖
+      flowchart TD
+        A["🔹 本機開發環境<br/>http://localhost:5173/"] --> B["載入路徑：/ReactTypeScript/HIS/doc/structure-diagram.html"]
+        B --> C["實際訪問：<br/>http://localhost:5173/ReactTypeScript/HIS/doc/structure-diagram.html"]
+        C --> D["✅ 頁面可正常開啟"]
+
+        A2["🔹 GitHub Pages 環境<br/>https://username.github.io/ReactTypeScript/"] --> B2["載入路徑：/ReactTypeScript/HIS/doc/structure-diagram.html"]
+        B2 --> C2["實際訪問：<br/>https://username.github.io/ReactTypeScript/ReactTypeScript/HIS/doc/structure-diagram.html"]
+        C2 --> D2["❌ 錯誤：路徑重複，找不到頁面"]
+
+        A3["✅ 建議寫法（相對路徑）"] --> B3["href='HIS/doc/structure-diagram.html'"]
+        B3 --> C3["在本機與 GitHub Pages 皆可正確顯示"]
+
+        style A fill:#f0f9ff,stroke:#2b7be4
+        style A2 fill:#fff7f0,stroke:#f39c12
+        style A3 fill:#eefdef,stroke:#2ecc71
+        style D fill:#e8fff1,stroke:#1abc9c
+        style D2 fill:#ffecec,stroke:#e74c3c
+    </div>
+
+    <div class="examples">
+      <div class="card">
+        <h3>建議寫法（相對路徑）</h3>
+        <pre class="code">&lt;a href="HIS/doc/structure-diagram.html" target="_blank"&gt;開啟說明&lt;/a&gt;</pre>
+        <p>✔ 相對於網站根目錄（public）即可正常運作，不會產生多餘的子路徑。</p>
+      </div>
+
+      <div class="card">
+        <h3>React / Vite 動態 base（進階）</h3>
+        <pre class="code">{`&lt;a href={\`${import.meta.env.BASE_URL}HIS/doc/structure-diagram.html\`}&gt;開啟&lt;/a&gt;`}</pre>
+        <p>✔ 在不同 base 設定（例如部署在子路徑）時，Vite 會自動補上正確前綴。</p>
+      </div>
+
+      <div class="card">
+        <h3>錯誤示範（不要這樣寫）</h3>
+        <pre class="code">&lt;a href="/public/HIS/doc/structure-diagram.html"&gt;錯誤連結&lt;/a&gt;</pre>
+        <p>✖ 不要在 href 中寫 <code>/public/</code>，public 是專案內部目錄，網址不包含該層。</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>小結：</strong>
+      <ul>
+        <li>Vite 與 GitHub Pages 將 <code>public/</code> 視為網站根目錄（root）。</li>
+        <li>放在 <code>public/HIS/doc/structure-diagram.html</code> 的檔案，實際可透過 <code>/HIS/doc/structure-diagram.html</code> 存取。</li>
+        <li>若需要處理不同部署 base，建議使用 <code>import.meta.env.BASE_URL</code>（Vite）或相對路徑。</li>
+      </ul>
+    </div>
+
+    <h3 style="margin-top:20px">更多示例</h3>
+    <pre class="code">
+// 本機（dev server）實際訪問（範例）
+http://localhost:5173/HIS/doc/structure-diagram.html
+
+// GitHub Pages（部署）
+https://username.github.io/ReactTypeScript/HIS/doc/structure-diagram.html
+    </pre>
+
+    <footer>
+      若要我把此頁整合成你專案內的說明檔（放 public/HIS/doc/ 下）我可以直接產生檔案內容給你貼上。
+    </footer>
+  </div>
+
+  <!-- Mermaid script from CDN (unpkg) -->
+  <script type="module">
+    import mermaid from 'https://unpkg.com/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+  </script>
+</body>
+</html>
