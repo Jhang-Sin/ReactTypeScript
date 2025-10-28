@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>模擬掛號系統</title>
+  <link rel="stylesheet" href="/public/HIS/css/register-system.css">
+</head>
+<body>
+  <div class="container">
+    <h2>模擬掛號系統</h2>
+
+    <div class="filter-box">
+      <label for="filterInput">篩選醫師：</label>
+      <input type="text" id="filterInput" placeholder="輸入姓名或科別">
+    </div>
+
+    <table class="SinTable" id="doctorTable">
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>科別</th>
+          <th>職稱</th>
+          <th>掛號</th>
+        </tr>
+      </thead>
+      <tbody id="doctorBody">
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 掛號彈出框 -->
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <h3>掛號確認</h3>
+      <p id="modalText"></p>
+      <button id="confirmBtn">確認掛號</button>
+    </div>
+  </div>
+
+  <script>
+    // 模擬醫師資料
+    const doctors = [
+      { name: "張醫師", department: "內科", title: "主治醫師" },
+      { name: "李醫師", department: "外科", title: "副主任" },
+      { name: "王醫師", department: "小兒科", title: "主治醫師" },
+      { name: "陳醫師", department: "耳鼻喉科", title: "住院醫師" }
+    ];
+
+    const doctorBody = document.getElementById("doctorBody");
+    const filterInput = document.getElementById("filterInput");
+    const modal = document.getElementById("registerModal");
+    const modalText = document.getElementById("modalText");
+    const confirmBtn = document.getElementById("confirmBtn");
+
+    // 初始渲染表格
+    function renderDoctors(list) {
+      doctorBody.innerHTML = "";
+      list.forEach(doc => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${doc.name}</td>
+          <td>${doc.department}</td>
+          <td>${doc.title}</td>
+          <td><button class="register-btn" data-name="${doc.name}" data-dept="${doc.department}">掛號</button></td>
+        `;
+        doctorBody.appendChild(row);
+      });
+
+      // 綁定掛號按鈕事件
+      document.querySelectorAll(".register-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const name = btn.getAttribute("data-name");
+          const dept = btn.getAttribute("data-dept");
+          modalText.textContent = `確定要掛號「${dept}」的 ${name} 嗎？`;
+          modal.style.display = "block";
+        });
+      });
+    }
+
+    // 篩選功能
+    filterInput.addEventListener("input", e => {
+      const keyword = e.target.value.toLowerCase();
+      const filtered = doctors.filter(
+        d => d.name.toLowerCase().includes(keyword) || d.department.toLowerCase().includes(keyword)
+      );
+      renderDoctors(filtered);
+    });
+
+    // 確認掛號
+    confirmBtn.addEventListener("click", () => {
+      alert("掛號成功！");
+      modal.style.display = "none";
+    });
+
+    // 點擊外部區域關閉彈窗
+    window.onclick = function (event) {
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    renderDoctors(doctors);
+  </script>
+</body>
+</html>
