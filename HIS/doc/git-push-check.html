@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git 推送檢查流程圖</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+      background: #f4f6f8;
+      color: #333;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      background: #2c3e50;
+      color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      max-width: 800px;
+      margin: 30px auto;
+      position: relative;
+    }
+    .step {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .step::before {
+      content: "↓";
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #777;
+      font-size: 20px;
+    }
+    .step:first-child::before {
+      content: "";
+    }
+    code {
+      background: #eee;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      color: #c7254e;
+    }
+    .cmd-block {
+      background: #272822;
+      color: #a6e22e;
+      padding: 10px;
+      border-radius: 6px;
+      font-family: Consolas, monospace;
+      margin-top: 8px;
+      white-space: pre-wrap;
+    }
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Git 推送檢查流程圖</h1>
+  <div class="flow">
+
+    <div class="step">
+      <strong>① 確認未提交的變更</strong><br>
+      使用 <code>git status</code> 檢查哪些檔案已修改、刪除或新增。
+      <div class="cmd-block">git status</div>
+      <em>→ 顯示目前有哪些檔案準備被提交。</em>
+    </div>
+
+    <div class="step">
+      <strong>② 檢查與遠端差異</strong><br>
+      查看與 <code>origin/main</code> 的差異，確認哪些檔案會被推送。
+      <div class="cmd-block">git diff --name-only origin/main</div>
+      <em>→ 顯示尚未推送的檔案清單。</em>
+    </div>
+
+    <div class="step">
+      <strong>③ 檢視最後一次提交內容</strong><br>
+      若已提交但不確定內容，可檢查最後一次 commit。
+      <div class="cmd-block">git log -1 --stat</div>
+      <em>→ 顯示檔案異動與行數增減統計。</em>
+    </div>
+
+    <div class="step">
+      <strong>④ 查看遠端分支實際內容</strong><br>
+      不切換分支也能列出 <code>origin/gh-pages</code> 的檔案清單。
+      <div class="cmd-block">git ls-tree -r origin/gh-pages --name-only</div>
+      <em>→ 顯示 GitHub Pages 目前的檔案結構。</em>
+    </div>
+
+    <div class="step">
+      <strong>⑤ 推送更新至遠端</strong><br>
+      當檢查無誤後，執行推送動作：
+      <div class="cmd-block">git push origin main</div>
+      或對 GitHub Pages：
+      <div class="cmd-block">git push origin gh-pages</div>
+    </div>
+
+  </div>
+
+  <footer>© 2025 Git Push Flow Demo · Designed for ReactTypeScript Project</footer>
+</body>
+</html>
