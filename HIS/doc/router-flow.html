@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Router.js 運作流程</title>
+  <style>
+    :root{
+      --box-bg:#ffffff;
+      --box-border:#cfd8dc;
+      --accent:#1976d2;
+      --text:#213547;
+      --muted:#6b7a8a;
+    }
+    body{
+      font-family: "Segoe UI", "Microsoft JhengHei", Arial, sans-serif;
+      background:#f4f6f8;
+      color:var(--text);
+      margin:0;
+      padding:24px;
+    }
+    h1{
+      text-align:center;
+      margin:0 0 18px 0;
+      color:var(--accent);
+    }
+    .card{
+      max-width:980px;
+      margin:18px auto;
+      background:var(--box-bg);
+      border-radius:12px;
+      box-shadow:0 6px 18px rgba(33,53,71,0.06);
+      padding:18px;
+      border:1px solid rgba(0,0,0,0.04);
+    }
+
+    /* table layout */
+    table.flow{
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+      font-size:15px;
+    }
+    table.flow td{
+      padding:12px 8px;
+      vertical-align:middle;
+      text-align:center;
+    }
+
+    .box{
+      display:inline-block;
+      padding:14px 18px;
+      border-radius:10px;
+      background:var(--box-bg);
+      border:1px solid var(--box-border);
+      min-width:160px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.03);
+    }
+    .small{font-size:13px;color:var(--muted);padding:8px 12px;}
+    .arrow{
+      font-size:26px;
+      color:var(--accent);
+      font-weight:600;
+      line-height:1;
+    }
+
+    /* vertical arrows */
+    .vline{
+      height:36px;
+      width:2px;
+      margin:0 auto;
+      background:linear-gradient(var(--accent), var(--accent));
+      border-radius:2px;
+    }
+    .arrow-down{
+      display:block;
+      width:0;height:0;margin:6px auto 0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--accent);
+    }
+
+    /* two-column branching row */
+    .branch-row .box{
+      min-width:220px;
+    }
+
+    /* footer note */
+    .meta{
+      margin-top:12px;color:var(--muted);font-size:13px;text-align:center;
+    }
+
+    /* responsive */
+    @media (max-width:720px){
+      .box{min-width:120px;padding:10px 12px}
+      .branch-row td{display:block;width:100%}
+      .arrow{transform:rotate(90deg);display:inline-block;margin:8px 0}
+      .vline{display:none}
+    }
+  </style>
+</head>
+<body>
+  <h1>Router.js 運作流程</h1>
+
+  <div class="card">
+    <table class="flow" role="presentation">
+      <!-- row 1 -->
+      <tr>
+        <td colspan="3">
+          <div class="box">使用者點擊選單按鈕<br /><span class="small">(click on menu item)</span></div>
+        </td>
+      </tr>
+
+      <!-- arrow down -->
+      <tr>
+        <td colspan="3">
+          <div class="vline" aria-hidden="true"></div>
+          <div class="arrow-down" aria-hidden="true"></div>
+        </td>
+      </tr>
+
+      <!-- row 2: decision -->
+      <tr>
+        <td colspan="3">
+          <div class="box">讀取 data-page 屬性<br /><span class="small">(get data-page)</span></div>
+        </td>
+      </tr>
+
+      <!-- arrow down -->
+      <tr>
+        <td colspan="3">
+          <div class="vline" aria-hidden="true"></div>
+          <div class="arrow-down" aria-hidden="true"></div>
+        </td>
+      </tr>
+
+      <!-- row 3: loading -->
+      <tr>
+        <td colspan="3">
+          <div class="box">顯示「載入中」提示<br /><span class="small">(show loading placeholder)</span></div>
+        </td>
+      </tr>
+
+      <!-- arrow down -->
+      <tr>
+        <td colspan="3">
+          <div class="vline" aria-hidden="true"></div>
+          <div class="arrow-down" aria-hidden="true"></div>
+        </td>
+      </tr>
+
+      <!-- row 4: fetch -->
+      <tr>
+        <td colspan="3">
+          <div class="box">fetch() 載入 HTML 子頁面<br /><span class="small">(fetch html)</span></div>
+        </td>
+      </tr>
+
+      <!-- arrow down -->
+      <tr>
+        <td colspan="3">
+          <div class="vline" aria-hidden="true"></div>
+          <div class="arrow-down" aria-hidden="true"></div>
+        </td>
+      </tr>
+
+      <!-- row 5: success/fail branching -->
+      <tr>
+        <td style="width:40%">
+          <div class="box">失敗 → 顯示錯誤訊息<br /><span class="small">(show error)</span></div>
+        </td>
+
+        <td style="width:20%">
+          <div class="arrow">✔</div>
+        </td>
+
+        <td style="width:40%">
+          <div class="box">成功 → 將 HTML 插入 main#content<br /><span class="small">(innerHTML)</span></div>
+        </td>
+      </tr>
+
+      <!-- arrow down from right box -->
+      <tr>
+        <td></td>
+        <td></td>
+        <td>
+          <div class="vline" style="margin-left:50%;" aria-hidden="true"></div>
+          <div class="arrow-down" style="margin-left:50%;" aria-hidden="true"></div>
+        </td>
+      </tr>
+
+      <!-- row 6: find scripts -->
+      <tr>
+        <td colspan="3">
+          <div class="box">搜尋插入內容中的 &lt;script src="..."&gt; 標籤<br /><span class="small">(querySelectorAll('script[src]'))</span></div>
+        </td>
+      </tr>
+
+      <!-- arrow down -->
+      <tr>
+        <td colspan="3">
+          <div class="vline" aria-hidden="true"></div>
+          <div class="arrow-down" aria-hidden="true"></div>
+        </td>
+      </tr>
+
+      <!-- row 7: load each script -->
+      <tr>
+        <td colspan="3">
+          <div class="box">逐一建立 &lt;script&gt; 元素並把 src 附加到 document.body<br /><span class="small">(createElement('script'), appendChild)</span></div>
+        </td>
+      </tr>
+
+      <!-- arrow down -->
+      <tr>
+        <td colspan="3">
+          <div class="vline" aria-hidden="true"></div>
+          <div class="arrow-down" aria-hidden="true"></div>
+        </td>
+      </tr>
+
+      <!-- row 8: execute -->
+      <tr>
+        <td colspan="3">
+          <div class="box">執行子頁面邏輯（事件綁定 & 初始化）<br /><span class="small">(reg_form.js / reg_list.js / reg_info.js 等)</span></div>
+        </td>
+      </tr>
+
+      <!-- final -->
+      <tr>
+        <td colspan="3" style="padding-top:18px;">
+          <div style="display:flex;gap:12px;justify-content:center;align-items:center;">
+            <div class="box" style="min-width:200px;"><strong>Console Log</strong><div class="small">顯示載入動作與錯誤</div></div>
+            <div class="box" style="min-width:200px;"><strong>使用者可操作</strong><div class="small">已完成載入並綁定事件</div></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="meta">說明：此流程圖以 table + div 排版呈現，箭頭以 CSS 模擬。若要列印或放到 README，可將內容截圖或複製 HTML。</div>
+  </div>
+</body>
+</html>

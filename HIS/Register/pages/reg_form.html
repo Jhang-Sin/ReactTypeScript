@@ -1,19 +1,18 @@
 <h2>掛號作業</h2>
-<form id="regForm">
-  <label>姓名：</label><input type="text" name="name"><br>
-  <label>身分證號：</label><input type="text" name="id"><br>
-  <label>科別：</label>
-  <select name="dept">
-    <option>內科</option>
-    <option>外科</option>
-    <option>小兒科</option>
-  </select><br>
-  <label>掛號日期：</label><input type="date" name="date"><br>
-  <button type="submit">送出</button>
-</form>
-<script>
-document.getElementById('regForm').addEventListener('submit', e => {
-  e.preventDefault();
-  alert('掛號資料送出！');
-});
-</script>
+
+<section class="search-area">
+  <label>病歷號：[測試號:P001/P002/P003]
+    <input type="text" id="mrNo" placeholder="請輸入病歷號">
+  </label>
+  <button id="searchBtn">查詢</button>
+</section>
+
+<section id="patientResult" class="card"></section>
+
+<section id="doctorSection" style="display:none;">
+  <h3>可掛號醫師清單</h3>
+  <div id="doctorList"></div>
+</section>
+
+<script src="../js/data-loader.js"></script>
+<script src="../js/reg_form.js"></script>

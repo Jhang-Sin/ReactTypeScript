@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>模擬掛號系統</title>
+  <link rel="stylesheet" href="reg_style.css">
+</head>
+<body>
+  <header>
+    <h1>模擬掛號系統</h1>
+  </header>
+
+  <nav>
+    <button data-page="reg_form.html">掛號作業</button>
+    <button data-page="reg_info.html">病人資料</</button>
+    <button data-page="reg_list.html">掛號紀錄</button>
+  </nav>
+
+  <main id="main-content"></main>
+
+  <script src="js/reg_handler.js"></script>
+  <script>
+    loadPage('reg_form.html');
+    document.querySelectorAll('nav button').forEach(btn => {
+      btn.addEventListener('click', () => loadPage(btn.dataset.page));
+    });
+  </script>
+</body>
+</html>

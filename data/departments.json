@@ -18,5 +18,25 @@
   "Orthopedics": {
     "zh": "骨科",
     "en": "Orthopedics"
+  },
+  "Ophthalmology": {
+    "zh": "眼科",
+    "en": "Ophthalmology"
+  },
+  "ENT": {
+    "zh": "耳鼻喉科",
+    "en": "Otolaryngology"
+  },
+  "Obstetrics": {
+    "zh": "婦產科",
+    "en": "Obstetrics & Gynecology"
+  },
+  "Urology": {
+    "zh": "泌尿科",
+    "en": "Urology"
+  },
+  "GeneralMedicine": {
+    "zh": "一般內科",
+    "en": "General Medicine"
   }
 }

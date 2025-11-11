@@ -1,0 +1,12 @@
+[
+  {
+    "id": "D001",
+    "name": "王醫師",
+    "department": "Cardiology"
+  },
+  {
+    "id": "D002",
+    "name": "陳醫師",
+    "department": "Dermatology"
+  }
+]

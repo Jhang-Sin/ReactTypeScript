@@ -1,0 +1,4 @@
+body { font-family: "Microsoft JhengHei", sans-serif; margin: 20px; }
+h2 { color: #1976d2; }
+.form-section { margin-bottom: 20px; }
+#resultArea { border: 1px solid #ccc; padding: 10px; min-height: 50px; }

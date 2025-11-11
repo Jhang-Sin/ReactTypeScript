@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>router.js 動態載入流程圖</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", Arial, sans-serif;
+      background: #f8fafc;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #0078d4;
+      margin-bottom: 10px;
+    }
+    .flow-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .flow-step {
+      border: 2px solid #0078d4;
+      border-radius: 12px;
+      background: white;
+      padding: 16px 24px;
+      width: 80%;
+      max-width: 720px;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .flow-step h3 {
+      margin: 0;
+      color: #0078d4;
+    }
+    .arrow {
+      width: 2px;
+      height: 40px;
+      background: #0078d4;
+      margin: 0 auto;
+    }
+    code {
+      background: #eef6ff;
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-size: 0.9em;
+      color: #0078d4;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: gray;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧩 router.js 動態載入與 Script 重新執行流程</h1>
+
+  <div class="flow-container">
+
+    <div class="flow-step">
+      <h3>① DOMContentLoaded → 啟動 router.js</h3>
+      <p>網頁載入完成後執行 <code>router.js</code>，註冊所有帶有 <code>data-page</code> 的選單連結事件。</p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="flow-step">
+      <h3>② 使用者點擊功能連結</h3>
+      <p>觸發 <code>click</code> 事件，讀取對應的 <code>data-page</code> 屬性（例如：<code>reg_form.html</code>）。</p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="flow-step">
+      <h3>③ router.js 呼叫 <code>loadPage()</code></h3>
+      <p>開始以 <code>fetch()</code> 非同步載入 <code>pages/</code> 資料夾下的對應頁面。</p>
+      <p>中間框架（#content）暫時顯示「正在載入頁面...」。</p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="flow-step">
+      <h3>④ 載入成功 → 插入 HTML</h3>
+      <p>以 <code>innerHTML</code> 將頁面內容插入至 <code>#content</code> 區域中。</p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="flow-step">
+      <h3>⑤ 重新載入該頁 <code>&lt;script&gt;</code></h3>
+      <p>偵測新載入頁面中的所有 <code>&lt;script src="..."&gt;</code>。</p>
+      <p>為每個 script 建立新節點並附加至 <code>document.body</code>。</p>
+      <p>自動修正路徑，如相對路徑會轉換為 <code>js/對應檔名</code>。</p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="flow-step">
+      <h3>⑥ console 輸出狀態</h3>
+      <p>載入成功 → 顯示 <code>[router.js] ✅ Script loaded successfully</code></p>
+      <p>載入失敗 → 顯示 <code>[router.js] ❌ Script load failed</code></p>
+      <p>這些訊息可在 F12 Console 觀察。</p>
+    </div>
+
+    <div class="arrow"></div>
+
+    <div class="flow-step">
+      <h3>⑦ 頁面可操作</h3>
+      <p>所有 JS 執行完成後，頁面互動功能（例如查詢、掛號等）即進入可使用狀態。</p>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2025 HIS 模擬掛號系統 — router.js 教學流程圖版本
+  </footer>
+</body>
+</html>

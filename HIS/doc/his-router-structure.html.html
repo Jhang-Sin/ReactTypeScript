@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>HIS 系統多模組 Router 架構圖</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", "Segoe UI", sans-serif;
+      background: #f7f7f7;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    .diagram {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .module {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+      position: relative;
+    }
+    .module h2 {
+      background: #3498db;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      margin-top: 0;
+      font-size: 18px;
+    }
+    .router {
+      border: 1px solid #3498db;
+      border-radius: 6px;
+      padding: 10px;
+      background: #ecf5fc;
+      margin: 10px 0;
+    }
+    .pages, .scripts {
+      text-align: left;
+      margin: 10px auto;
+      font-size: 14px;
+      background: #fafafa;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .arrow {
+      text-align: center;
+      font-size: 28px;
+      color: #666;
+      margin: 10px 0;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏥 HIS 系統多模組 Router 架構圖</h1>
+
+  <div class="diagram">
+    <!-- 模組 1：掛號系統 -->
+    <div class="module">
+      <h2>🩺 Register 掛號系統</h2>
+      <div class="router">
+        router.js<br>
+        <small>負責載入 Register/pages/ 下的頁面</small>
+      </div>
+      <div class="arrow">⬇</div>
+      <div class="pages">
+        📂 pages/<br>
+        ├─ reg_form.html<br>
+        ├─ reg_list.html<br>
+        └─ reg_info.html
+      </div>
+      <div class="arrow">⬇</div>
+      <div class="scripts">
+        📂 js/<br>
+        ├─ reg_form.js<br>
+        ├─ reg_list.js<br>
+        └─ reg_info.js
+      </div>
+    </div>
+
+    <!-- 模組 2：醫令系統 -->
+    <div class="module">
+      <h2>💊 CPOE 醫令系統</h2>
+      <div class="router">
+        router.js<br>
+        <small>負責載入 CPOE/pages/ 下的頁面</small>
+      </div>
+      <div class="arrow">⬇</div>
+      <div class="pages">
+        📂 pages/<br>
+        ├─ order_list.html<br>
+        ├─ order_entry.html<br>
+        └─ order_detail.html
+      </div>
+      <div class="arrow">⬇</div>
+      <div class="scripts">
+        📂 js/<br>
+        ├─ order_list.js<br>
+        ├─ order_entry.js<br>
+        └─ order_detail.js
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:40px;">
+    <div class="module" style="width:90%; background:#eef6e7;">
+      <h2>🌐 HIS 主系統 (整合層)</h2>
+      <div class="router" style="border-color:#27ae60; background:#e8f8f2;">
+        router.js<br>
+        <small>（可選）統一入口，載入各功能模組的 index.html</small>
+      </div>
+      <div class="pages">
+        📁 HIS/<br>
+        ├─ Register/index.html<br>
+        ├─ CPOE/index.html<br>
+        └─ 其他模組 ...
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 模擬醫療資訊系統（HIS）多模組 Router 架構示意圖
+  </footer>
+</body>
+</html>

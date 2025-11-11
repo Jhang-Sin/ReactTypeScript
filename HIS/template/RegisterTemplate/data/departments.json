@@ -1,0 +1,22 @@
+{
+  "Cardiology": {
+    "zh": "心臟內科",
+    "en": "Cardiology"
+  },
+  "Neurology": {
+    "zh": "神經內科",
+    "en": "Neurology"
+  },
+  "Dermatology": {
+    "zh": "皮膚科",
+    "en": "Dermatology"
+  },
+  "Pediatrics": {
+    "zh": "小兒科",
+    "en": "Pediatrics"
+  },
+  "Orthopedics": {
+    "zh": "骨科",
+    "en": "Orthopedics"
+  }
+}
