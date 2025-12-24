@@ -1,7 +1,12 @@
 {
-  "Cardiology": {"zh":"心臟內科","en":"Cardiology"},
-  "Neurology": {"zh":"神經內科","en":"Neurology"},
-  "Dermatology": {"zh":"皮膚科","en":"Dermatology"},
-  "Pediatrics": {"zh":"小兒科","en":"Pediatrics"},
-  "Orthopedics": {"zh":"骨科","en":"Orthopedics"}
+  "01": { "zh": "家醫科", "en": "Family Medicine" },
+  "02": { "zh": "內科", "en": "Internal Medicine" },
+  "03": { "zh": "外科", "en": "Surgery" },
+  "04": { "zh": "小兒科", "en": "Pediatrics" },
+  "05": { "zh": "婦產科", "en": "Obstetrics & Gynecology" },
+  "06": { "zh": "骨科", "en": "Orthopedics" },
+  "07": { "zh": "神經外科", "en": "Neurosurgery" },
+  "08": { "zh": "泌尿科", "en": "Urology" },
+  "09": { "zh": "耳鼻喉科", "en": "ENT" },
+  "10": { "zh": "眼科", "en": "Ophthalmology" }
 }

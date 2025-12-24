@@ -1,0 +1,117 @@
+<table border="1" cellspacing="0" cellpadding="6">
+  <tr style="background:#f2f2f2; font-weight:bold;">
+    <th>頁面名稱</th>
+    <th>用途</th>
+    <th>必須引用的 JS</th>
+  </tr>
+
+  <!-- index.html -->
+  <tr>
+    <td>index.html（掛號系統首頁）</td>
+    <td>主框架、左側選單、載入子頁面</td>
+    <td>
+      <ul>
+        <li>router.js（動態載入子頁面）</li>
+        <li>（不可引用任何 reg_xxx.js，否則會重複執行）</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- reg_form.html -->
+  <tr>
+    <td>reg_form.html（掛號作業）</td>
+    <td>查詢病人、掛號、顯示病人資料</td>
+    <td>
+      <ul>
+        <li>https://unpkg.com/vue@3</li>
+        <li>utilities.js</li>
+        <li>condition-config.js</li>
+        <li>condition-engine.js</li>
+        <li>modal.js</li>
+        <li>register-system.js</li>
+        <li>reg_form.js（本頁邏輯）</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- reg_by_doctor -->
+  <tr>
+    <td>reg_by_doctor.html（依醫師掛號）</td>
+    <td>依醫師查看排班、執行掛號</td>
+    <td>
+      <ul>
+        <li>https://unpkg.com/vue@3</li>
+        <li>utilities.js</li>
+        <li>condition-config.js</li>
+        <li>condition-engine.js</li>
+        <li>modal.js</li>
+        <li>register-system.js</li>
+        <li>reg_by_doctor.js（本頁邏輯）</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- reg_by_dep -->
+  <tr>
+    <td>reg_by_dep.html（依科別掛號）</td>
+    <td>依科別篩選醫師排班資訊</td>
+    <td>
+      <ul>
+        <li>https://unpkg.com/vue@3</li>
+        <li>utilities.js</li>
+        <li>condition-config.js</li>
+        <li>condition-engine.js</li>
+        <li>modal.js</li>
+        <li>register-system.js</li>
+        <li>reg_by_dep.js（本頁邏輯）</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- reg_by_date -->
+  <tr>
+    <td>reg_by_date.html（依日期掛號）</td>
+    <td>顯示月曆、依日期列出醫師時段</td>
+    <td>
+      <ul>
+        <li>https://unpkg.com/vue@3</li>
+        <li>utilities.js</li>
+        <li>condition-config.js</li>
+        <li>condition-engine.js</li>
+        <li>modal.js</li>
+        <li>register-system.js</li>
+        <li>reg_by_date.js（本頁邏輯）</li>
+      </ul>
+    </td>
+  </tr>
+
+  <!-- 規則頁面 (非掛號主流程)-->
+  <tr>
+    <td>reg_info.html（掛號詳細）</td>
+    <td>查看掛號資訊</td>
+    <td>
+      <ul>
+        <li>utilities.js</li>
+        <li>reg_info.js</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>reg_list.html（掛號紀錄）</td>
+    <td>顯示掛號列表</td>
+    <td>
+      <ul>
+        <li>utilities.js</li>
+        <li>reg_list.js</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>RegIndex.js</td>
+    <td>（舊版，不再使用）</td>
+    <td>❌ 不需引用</td>
+  </tr>
+
+</table>

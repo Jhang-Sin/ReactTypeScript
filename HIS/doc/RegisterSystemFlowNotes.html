@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>掛號條件判斷流程圖與檔案說明</title>
+  <style>
+    :root{
+      --bg:#f5f7fa;
+      --card:#fff;
+      --accent:#1763c6;
+      --muted:#6b7280;
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --err:#ef4444;
+    }
+    body{
+      background:var(--bg);
+      font-family: "Microsoft JhengHei", "Segoe UI", Arial, sans-serif;
+      color:#222;
+      margin:24px;
+    }
+    h1{
+      color:var(--accent);
+      text-align:center;
+      margin-bottom:10px;
+    }
+    .container{
+      max-width:1100px;
+      margin:18px auto;
+    }
+    .card{
+      background:var(--card);
+      border-radius:10px;
+      padding:18px;
+      box-shadow:0 6px 18px rgba(6,10,20,0.06);
+      margin-bottom:18px;
+    }
+
+    /* Flowchart table style */
+    table.flow{
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+      font-size:15px;
+    }
+    table.flow td{
+      vertical-align:middle;
+      text-align:center;
+      padding:10px;
+    }
+    .box{
+      display:inline-block;
+      background:var(--card);
+      border:1px solid rgba(0,0,0,0.06);
+      border-radius:10px;
+      padding:12px 16px;
+      min-width:160px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    }
+    .step-title{ font-weight:700; color:var(--accent); margin-bottom:6px;}
+    .small{ color:var(--muted); font-size:13px; margin-top:6px; display:block;}
+
+    .vline{ width:2px; height:30px; margin:0 auto; background:linear-gradient(var(--accent), var(--accent)); border-radius:2px;}
+    .arrow-down{ width:0;height:0;margin:8px auto 0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--accent);}
+
+    .branch-row td{padding:18px;}
+
+    /* legend and file list */
+    .file-list dt{ font-weight:700; margin-top:12px; }
+    .file-list dd{ margin:4px 0 10px 0; color:var(--muted); }
+
+    .note{ background:#fff8e1; border-left:4px solid var(--warn); padding:10px; border-radius:6px; color:#8a4b00; }
+
+    @media (max-width:760px){
+      .box{ min-width:120px; padding:10px;}
+      table.flow td{ display:block; width:100%; }
+      .vline{ display:none; }
+      .arrow-down{ transform:rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>掛號條件判斷流程圖（說明 + 檔案對應）</h1>
+
+    <div class="card">
+      <h2 style="margin-top:0">流程總覽</h2>
+
+      <table class="flow" role="presentation">
+        <!-- row 1 -->
+        <tr>
+          <td colspan="3">
+            <div class="box">
+              <div class="step-title">使用者發起掛號</div>
+              <div class="small">來源：依醫師 / 依日期 / 依科別 頁面（點擊某門診格）</div>
+            </div>
+          </td>
+        </tr>
+
+        <!-- arrow -->
+        <tr><td colspan="3"><div class="vline" aria-hidden="true"></div><div class="arrow-down" aria-hidden="true"></div></td></tr>
+
+        <!-- row 2 -->
+        <tr><td colspan="3">
+          <div class="box">
+            <div class="step-title">取得使用者身分 & 時段</div>
+            <div class="small">userType（Q1..Q5）與 noon code（01=上午 / 02=下午）</div>
+          </div>
+        </td></tr>
+
+        <tr><td colspan="3"><div class="vline" aria-hidden="true"></div><div class="arrow-down" aria-hidden="true"></div></td></tr>
+
+        <!-- row 3 -->
+        <tr>
+          <td colspan="3">
+            <div class="box">
+              <div class="step-title">ConditionEngine 查詢需檢核的條件集合</div>
+              <div class="small">根據 <code>CONDITION_RULES</code>（身分 × 時段）取得條件清單</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr><td colspan="3"><div class="vline" aria-hidden="true"></div><div class="arrow-down" aria-hidden="true"></div></td></tr>
+
+        <!-- branching: check each condition -->
+        <tr class="branch-row">
+          <td>
+            <div class="box">
+              <div class="step-title">逐一檢核條件</div>
+              <div class="small">執行條件函式（可為同步或非同步）</div>
+            </div>
+          </td>
+
+          <td style="width:120px"><div style="font-size:28px;color:var(--accent)">→</div></td>
+
+          <td>
+            <div class="box">
+              <div class="step-title">有條件未通過？</div>
+              <div class="small">若全部通過 → 直接掛號；否則進入彈窗決策</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr><td colspan="3"><div class="vline" aria-hidden="true"></div><div class="arrow-down" aria-hidden="true"></div></td></tr>
+
+        <!-- final branch -->
+        <tr>
+          <td>
+            <div class="box">
+              <div class="step-title">全部條件通過</div>
+              <div class="small">呼叫 <code>doRegister()</code> 完成掛號（寫入 localStorage 或呼叫 API）</div>
+            </div>
+          </td>
+
+          <td><div style="font-weight:700; color:var(--ok)">✔</div></td>
+
+          <td>
+            <div class="box">
+              <div class="step-title">有條件未通過 → 顯示彈窗</div>
+              <div class="small">彈窗內容與按鈕組合依 userType 而定（下方說明）</div>
+            </div>
+          </td>
+        </tr>
+
+        <tr><td colspan="3"><div class="vline" aria-hidden="true"></div><div class="arrow-down" aria-hidden="true"></div></td></tr>
+
+        <tr>
+          <td>
+            <div class="box">
+              <div class="step-title">當前身分 Q1/Q2/Q3（上午）</div>
+              <div class="small">需判斷 A,B,C,D → 若未通過顯示單一「確認」按鈕（不可強制）</div>
+            </div>
+          </td>
+          <td></td>
+          <td>
+            <div class="box">
+              <div class="step-title">當前身分 Q4/Q5（上午 或 下午）</div>
+              <div class="small">需判斷 A..G → 若未通過顯示雙按鈕「繼續 / 取消」，允許強制掛號</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- file list and modification notes -->
+    <div class="card">
+      <h2 style="margin-top:0">檔案清單（此功能相關）</h2>
+
+      <dl class="file-list">
+        <dt>1) condition-config.js</dt>
+        <dd>存放 TIME_PERIOD、CONDITIONS 與 <code>CONDITION_RULES</code>（身分 × 時段 對應條件集合）。</dd>
+
+        <dt>2) condition-engine.js</dt>
+        <dd>實作 <code>ConditionEngine</code> 類別：提供 <code>getConditions(userType, period)</code>、<code>checkCondition(...)</code> 等方法，供所有頁面呼叫。</dd>
+
+        <dt>3) common/modal.js / modal.css</dt>
+        <dd>通用彈出視窗（或使用 SweetAlert2），提供 <code>showConfirmModal(options)</code>。所有需要提示／確認的位置都使用此模組。</dd>
+
+        <dt>4) reg_by_doctor.js / reg_by_date.js / reg_by_dep.js</dt>
+        <dd>各掛號頁面的業務邏輯：在按下「掛號」按鈕前呼叫 <code>beforeRegister({doctorId,date,noon})</code>，由該函式與 ConditionEngine 互動。</dd>
+
+        <dt>5) data/noon_type.json</dt>
+        <dd>時段代碼對照（01..04），頁面顯示中文值（上午/下午/...）。</dd>
+
+        <dt>6) data/schedule.json</dt>
+        <dd>醫師排班資料，欄位包含 <code>doctorId</code>, <code>doctorName</code>, <code>department</code>, <code>items[]</code>（每項含 date 與 noon 代碼）。</dd>
+
+        <dt>7) reg_list / localStorage</dt>
+        <dd>掛號成功後寫入的紀錄（目前為 localStorage.registrations 或可改成呼叫後端 API）。</dd>
+      </dl>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">未來新增角色 / 條件時的修改說明（步驟）</h2>
+
+      <ol>
+        <li><strong>新增或修改條件集合（CONDITIONS）</strong>
+          <div class="small">編輯 <code>condition-config.js</code> 裡的 <code>CONDITIONS</code>（例如新增 H）</div>
+        </li>
+
+        <li><strong>新增或修改角色規則</strong>
+          <div class="small">在 <code>CONDITION_RULES</code> 中新增角色（例如 Q6）或調整既有角色在不同時段對應的條件集合。</div>
+        </li>
+
+        <li><strong>條件實作/邏輯函式</strong>
+          <div class="small">若新增的條件（例如 H）需要具體判斷程式，請在 <code>condition-engine.js</code> 中新增對應的判斷方法或把檢核點委派給後端 API（適用較複雜或需即時查詢之條件）。</div>
+        </li>
+
+        <li><strong>更新彈窗行為（若有新角色需不同按鈕）</strong>
+          <div class="small">修改 <code>modal.js</code> 的配置或在呼叫時傳入不同的 option（type=alert/confirm/forceable 等）。</div>
+        </li>
+
+        <li><strong>測試</strong>
+          <div class="small">本機測試：在 localStorage 設定不同 <code>userRole</code>（例如 localStorage.setItem('userRole','Q4')），並測試上午/下午不同情境。</div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">快速範例：beforeRegister() 節錄（整合呼叫）</h2>
+      <pre style="background:#111827;color:#f8fafc;padding:12px;border-radius:6px;overflow-x:auto;">
+// 假設 conditionEngine 與 showConfirmModal 已存在
+async function beforeRegister({ doctorId, date, noon }) {
+  const userType = localStorage.getItem('userRole') || 'Q1';
+  const period = (noon === '01') ? '上午' : '下午';
+  const needed = conditionEngine.getConditions(userType, period); // e.g. ['A','B','C']
+
+  // 檢核每一條件（示範為同步 checkCondition）
+  const failed = needed.find(cond => !conditionEngine.checkCondition(userType, period, cond));
+
+  if (!failed) {
+    doRegister(doctorId, date, noon);
+    return;
+  }
+
+  // 有未通過條件
+  if (['Q1','Q2','Q3'].includes(userType) && period === '上午') {
+    showConfirmModal({ title: '掛號失敗', message: '此醫師已達掛號上限。', type: 'alert' });
+    return;
+  }
+
+  // Q4/Q5 或醫師/管理者等可強制掛號
+  showConfirmModal({
+    title: '條件未通過',
+    message: '已達掛號上限，是否仍要繼續掛號？',
+    type: 'confirm',
+    onConfirm: () =&gt; doRegister(doctorId, date, noon)
+  });
+}
+      </pre>
+      <div class="note">提示：實務中 <code>checkCondition</code> 有些可能需呼叫後端（例如查詢實際名額是否已滿），請把該檢核設為 async，ConditionEngine 可回傳 Promise。</div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin-top:0">最後備註</h2>
+      <ul>
+        <li class="small">把 condition-config.js 視作「業務規則配置檔」，建議透過版本管理（git）與註解維護。</li>
+        <li class="small">若條件日後會由後端統一管理，可把 condition-config 轉為 API 並由後端回傳規則。</li>
+        <li class="small">彈窗建議使用 SweetAlert2（外觀佳、易用），或自行用 modal.js 建一套符合 HIS 風格的共用模組。</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

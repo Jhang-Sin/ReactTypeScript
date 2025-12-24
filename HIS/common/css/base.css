@@ -1,0 +1,30 @@
+/* base.css（全站地基） */
+
+/*
+//=======================
+只放：
+-reset
+-字型
+-背景色
+-基本文字
+
+❌ 不要放：
+-button 樣式
+-table
+-layout
+//=======================
+*/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans TC", sans-serif;
+  background-color: #f6f7f9;
+  color: #333;
+}
+
+h1, h2, h3 {
+  margin: 0.5em 0;
+}

@@ -1,13 +1,63 @@
-<h2>依科別掛號</h2>
+<!-- HIS/Register/pages/reg_by_dep.html -->
+<div id="app" class="reg-container">
 
-<div>
-  <label>選擇科別：
-    <select id="depSelect">
-      <option value="">--請選擇科別--</option>
+  <h2>依科別掛號</h2>
+
+  <!-- 科別選擇 -->
+  <section class="search-area">
+    <label>選擇科別：</label>
+    <select v-model="selectedDepCode" @change="loadSchedule">
+      <option value="">-- 請選擇科別 --</option>
+      <option
+        v-for="dep in depList"
+        :key="dep.code"
+        :value="dep.code"
+      >
+        {{ dep.zh }}
+      </option>
     </select>
-  </label>
+  </section>
+
+  <!-- 排班表 -->
+  <section
+    v-if="Array.isArray(scheduleList) && scheduleList.length > 0"
+    class="schedule-area"
+  >
+    <h3>門診清單</h3>
+
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>時段</th>
+          <th>醫師</th>
+          <th>掛號</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="item in scheduleList"
+          :key="item.id"
+        >
+          <td>{{ item.date }}</td>
+          <td>{{ noonMap[item.noon]?.value }}</td>
+          <td>{{ item.doctorName }}</td>
+          <td>
+            <button @click="register(item)">
+              掛號
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 無資料提示 -->
+  <p
+    v-if="pageReady && selectedDepCode && scheduleList.length === 0"
+    class="empty-msg"
+  >
+    此科別目前無門診資料
+  </p>
+
 </div>
-
-<div id="depScheduleArea" style="margin-top:12px;"></div>
-
-<script src="../js/reg_by_dep.js"></script>

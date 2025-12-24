@@ -1,0 +1,8 @@
+[
+  {"id":"D001","name":"林醫師","dept":"Dermatology","depCode":"01"},
+  {"id":"D002","name":"張醫師","dept":"Orthopedics","depCode":"02"},
+  {"id":"D003","name":"王醫師","dept":"Neurology","depCode":"04"},
+  {"id":"D004","name":"呂醫師","dept":"Neurology","depCode":"01"},
+  {"id":"D005","name":"陳醫師","dept":"Neurology","depCode":"03"},
+  {"id":"D006","name":"李醫師","dept":"Neurology","depCode":"05"}
+]

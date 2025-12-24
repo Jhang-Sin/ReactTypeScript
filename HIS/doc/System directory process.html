@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<title>HIS 系統資料夾結構對照表</title>
+<style>
+    body { font-family: "Microsoft JhengHei", sans-serif; padding: 20px; line-height: 1.6; }
+    h1 { color: #2b6cb0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ccc; vertical-align: top; }
+    th { background: #f0f4f8; }
+    .path { font-family: Consolas, monospace; color: #2a4365; }
+</style>
+</head>
+
+<body>
+<h1>📁 HIS 系統完整資料夾結構對照表（含 login.html）</h1>
+
+<p>以下為目前建議的 HIS 系統完整檔案架構，包含 login.html、掛號系統、共用模組與路徑。可用於專案檢查、GitHub Pages 佈署整理與未來擴充規劃。</p>
+
+<table>
+  <tr>
+    <th>資料夾 / 檔案</th>
+    <th>路徑</th>
+    <th>用途說明</th>
+  </tr>
+
+  <!-- HIS/html -->
+  <tr>
+    <td>登入頁面</td>
+    <td class="path">HIS/html/login.html</td>
+    <td>系統登入入口，登入成功後會導向 Register/index.html。</td>
+  </tr>
+
+  <!-- HIS/index.html -->
+  <tr>
+    <td>HIS 系統首頁</td>
+    <td class="path">HIS/index.html</td>
+    <td>HIS 主入口，可選擇進入掛號系統或其他模組。</td>
+  </tr>
+
+  <!-- HIS/common -->
+  <tr>
+    <th colspan="3">📦 HIS/common （共用模組）</th>
+  </tr>
+
+  <tr>
+    <td>utilities.js</td>
+    <td class="path">HIS/common/js/utilities.js</td>
+    <td>通用函式，例如讀取 txt/json、格式化日期、工具方法。</td>
+  </tr>
+
+  <tr>
+    <td>modal.js</td>
+    <td class="path">HIS/common/js/modal.js</td>
+    <td>通用彈出視窗（全系統共用）。</td>
+  </tr>
+
+  <tr>
+    <td>condition-config.js</td>
+    <td class="path">HIS/common/js/condition-config.js</td>
+    <td>掛號條件對照表（使用者角色 → 判斷條件）。</td>
+  </tr>
+
+  <tr>
+    <td>condition-engine.js</td>
+    <td class="path">HIS/common/js/condition-engine.js</td>
+    <td>依據角色與時段執行條件判斷。</td>
+  </tr>
+
+  <tr>
+    <td>register-system.js</td>
+    <td class="path">HIS/common/js/register-system.js</td>
+    <td>掛號流程核心邏輯（判斷 → 彈窗 → 結果）。</td>
+  </tr>
+
+  <!-- HIS/js -->
+  <tr>
+    <th colspan="3">📦 HIS/js（系統級 JavaScript）</th>
+  </tr>
+
+  <tr>
+    <td>router.js</td>
+    <td class="path">HIS/js/router.js</td>
+    <td>HIS 模組通用 Router，負責載入 pages/ 下的 HTML。</td>
+  </tr>
+
+  <!-- Register -->
+  <tr>
+    <th colspan="3">📦 HIS/Register （掛號系統根目錄）</th>
+  </tr>
+
+  <tr>
+    <td>掛號首頁 index.html</td>
+    <td class="path">HIS/Register/index.html</td>
+    <td>掛號系統入口（含左側選單、content 框架、router.js）。</td>
+  </tr>
+
+  <tr>
+    <td>掛號專用 CSS</td>
+    <td class="path">HIS/Register/register.css</td>
+    <td>掛號系統所有頁面的統一樣式。</td>
+  </tr>
+
+  <!-- Register/pages -->
+  <tr>
+    <th colspan="3">📄 HIS/Register/pages（掛號各功能頁面）</th>
+  </tr>
+
+  <tr>
+    <td>reg_form.html</td>
+    <td class="path">HIS/Register/pages/reg_form.html</td>
+    <td>舊版「輸入病歷號 → 查詢 → 掛號」。</td>
+  </tr>
+
+  <tr>
+    <td>reg_by_doctor.html</td>
+    <td class="path">HIS/Register/pages/reg_by_doctor.html</td>
+    <td>依醫師掛號。</td>
+  </tr>
+
+  <tr>
+    <td>reg_by_date.html</td>
+    <td class="path">HIS/Register/pages/reg_by_date.html</td>
+    <td>依日期掛號（行事曆）。</td>
+  </tr>
+
+  <tr>
+    <td>reg_by_dep.html</td>
+    <td class="path">HIS/Register/pages/reg_by_dep.html</td>
+    <td>依科別掛號。</td>
+  </tr>
+
+  <!-- Register/js -->
+  <tr>
+    <th colspan="3">📄 HIS/Register/js（掛號系統 JavaScript）</th>
+  </tr>
+
+  <tr>
+    <td>reg_form.js</td>
+    <td class="path">HIS/Register/js/reg_form.js</td>
+    <td>掛號作業 JS。</td>
+  </tr>
+
+  <tr>
+    <td>reg_by_doctor.js</td>
+    <td class="path">HIS/Register/js/reg_by_doctor.js</td>
+    <td>依醫師掛號 JS。</td>
+  </tr>
+
+  <tr>
+    <td>reg_by_date.js</td>
+    <td class="path">HIS/Register/js/reg_by_date.js</td>
+    <td>依日期掛號 JS。</td>
+  </tr>
+
+  <tr>
+    <td>reg_by_dep.js</td>
+    <td class="path">HIS/Register/js/reg_by_dep.js</td>
+    <td>依科別掛號 JS。</td>
+  </tr>
+
+  <!-- Register/data -->
+  <tr>
+    <th colspan="3">📁 HIS/Register/data（掛號專用假資料）</th>
+  </tr>
+
+  <tr>
+    <td>schedule.json</td>
+    <td class="path">HIS/Register/data/schedule.json</td>
+    <td>醫師排班表（依醫師、日期、科別）。</td>
+  </tr>
+
+  <tr>
+    <td>doctors.json</td>
+    <td class="path">HIS/Register/data/doctors.json</td>
+    <td>醫師名冊。</td>
+  </tr>
+
+  <tr>
+    <td>patients.json</td>
+    <td class="path">HIS/Register/data/patients.json</td>
+    <td>病患資料。</td>
+  </tr>
+
+  <tr>
+    <td>depcode.txt</td>
+    <td class="path">HIS/Register/data/depcode.txt</td>
+    <td>科別對照表。</td>
+  </tr>
+
+  <tr>
+    <td>noon_type.txt</td>
+    <td class="path">HIS/Register/data/noon_type.txt</td>
+    <td>時段代碼（上午/下午/黃昏/晚上）。</td>
+  </tr>
+
+  <tr>
+    <td>noon-time.txt</td>
+    <td class="path">HIS/Register/data/noon-time.txt</td>
+    <td>時段時間區間（8:00–12:00 等）。</td>
+  </tr>
+
+</table>
+
+</body>
+</html>

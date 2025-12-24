@@ -1,12 +1,65 @@
-<h2>依日期掛號</h2>
+<!-- HIS/Register/pages/reg_by_date.html -->
+<div id="app" class="reg-container">
 
-<div>
-  <label>選擇月份：
-    <input type="month" id="monthInput" />
-  </label>
+  <h2>依日期掛號</h2>
+
+  <!-- 日期選擇 -->
+  <section class="search-area">
+    <label>選擇日期：</label>
+    <select v-model="selectedDate" @change="loadSchedule">
+      <option value="">-- 請選擇日期 --</option>
+      <option
+        v-for="date in dateList"
+        :key="date"
+        :value="date"
+      >
+        {{ date }}
+      </option>
+    </select>
+  </section>
+
+  <!-- 排班表 -->
+  <section
+    v-if="Array.isArray(scheduleList) && scheduleList.length > 0"
+    class="schedule-area"
+  >
+    <h3>當日門診清單</h3>
+
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>時段</th>
+          <th>科別</th>
+          <th>醫師</th>
+          <th>掛號</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="item in scheduleList"
+          :key="item.id"
+        >
+          <td>{{ item.date }}</td>
+          <td>{{ noonMap[item.noon]?.value }}</td>
+          <td>{{ depMap[item.depCode]?.zh }}</td>
+          <td>{{ item.doctorName }}</td>
+          <td>
+            <button @click="register(item)">
+              掛號
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 無資料提示 -->
+  <p
+    v-if="pageReady && selectedDate && scheduleList.length === 0"
+    class="empty-msg"
+  >
+    此日期無門診資料
+  </p>
+
 </div>
-
-<div id="dateListArea" style="margin-top:12px;"></div>
-<div id="dateScheduleArea" style="margin-top:12px;"></div>
-
-<script src="../js/reg_by_date.js"></script>

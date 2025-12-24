@@ -1,0 +1,14 @@
+/* util.css （小工具）*/
+
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.loading {
+  color: #999;
+  font-style: italic;
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "doctorId": "D001",
+    "doctorName": "林醫師",
+    "depCode": "GeneralMedicine",
+    "items": [
+      { "date": "2024-11-17", "noon": "01" },
+      { "date": "2024-11-24", "noon": "01" },
+      { "date": "2024-11-25", "noon": "02" },
+      { "date": "2024-11-27", "noon": "02" },
+      { "date": "2024-11-28", "noon": "04" }
+    ]
+  },
+  {
+    "doctorId": "D002",
+    "doctorName": "張醫師",
+    "depCode": "GeneralMedicine",
+    "items": [
+      { "date": "2024-11-17", "noon": "01" },
+      { "date": "2024-11-24", "noon": "01" },
+      { "date": "2024-11-25", "noon": "02" },
+      { "date": "2024-11-27", "noon": "02" },
+      { "date": "2024-11-28", "noon": "04" }
+    ]
+  },
+  {
+    "doctorId": "D003",
+    "doctorName": "C醫師",
+    "depCode": "Pediatrics",
+    "items": [
+      { "date": "2024-11-17", "noon": "01" },
+      { "date": "2024-11-24", "noon": "01" },
+      { "date": "2024-11-25", "noon": "02" },
+      { "date": "2024-11-27", "noon": "02" },
+      { "date": "2024-11-28", "noon": "04" }
+    ]
+  }
+]

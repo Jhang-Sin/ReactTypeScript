@@ -1,0 +1,13 @@
+/* admin.css */
+
+.maintain-actions {
+  margin-bottom: 12px;
+}
+
+.check-ok {
+  color: green;
+}
+
+.check-error {
+  color: red;
+}

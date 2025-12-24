@@ -1,0 +1,47 @@
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("[router.js] initialized");
+
+  const links = document.querySelectorAll("[data-page]");
+  const content = document.getElementById("content");
+
+  if (!content) {
+    console.error("[router.js] 找不到 #content");
+    return;
+  }
+
+  links.forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const page = link.getAttribute("data-page");
+      if (page) loadPage(`pages/${page}`);
+    });
+  });
+
+  async function loadPage(page) {
+    try {
+      console.log(`[router] 讀取頁面: ${page}`);
+
+      content.innerHTML = `<p style="color: gray; text-align: center;">載入中...</p>`;
+
+      const res = await fetch(page);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const html = await res.text();
+      content.innerHTML = html;
+
+      const scripts = content.querySelectorAll("script[src]");
+      scripts.forEach(oldScript => {
+        const s = document.createElement("script");
+        s.src = oldScript.src;
+        s.onload = () => console.log(`[router] script loaded: ${s.src}`);
+        s.onerror = () => console.error(`[router] script load failed: ${s.src}`);
+        document.body.appendChild(s);
+      });
+
+    } catch (err) {
+      console.error("[router] 載入失敗:", err.message);
+      content.innerHTML =
+        `<p style="color: red; text-align: center;">頁面載入失敗：${err.message}</p>`;
+    }
+  }
+});

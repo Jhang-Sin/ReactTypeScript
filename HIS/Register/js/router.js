@@ -1,65 +1,157 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("[router.js] initialized ✅");
+// ==================================================
+// router.js（最終穩定版）
+// - 對應 <main id="content">
+// - 正確處理 HIS/Register/js 路徑
+// - Vue 自動 unmount（避免重複點擊異常）
+// - 共用 JS 只載入一次
+// - 移除舊的 page JS（避免快取問題）
+// -20251216
+// ==================================================
 
-  const links = document.querySelectorAll("[data-page]");
+(() => {
+
+  console.log("[router] init");
+
+  // ===============================
+  // 取得 HIS Base Path
+  // ===============================
+  function getHISBase() {
+    return location.pathname.includes("/ReactTypeScript/")
+      ? "/ReactTypeScript/HIS"
+      : "/HIS";
+  }
+
+  const HIS_BASE = getHISBase();
+  const PAGE_BASE = `${HIS_BASE}/Register/pages`;
+  const JS_BASE   = `${HIS_BASE}/Register/js`;
+
   const content = document.getElementById("content");
-
   if (!content) {
-    console.error("[router.js] ❌ 找不到 #content 區域，無法載入頁面。");
+    console.error("[router] #content not found");
     return;
   }
 
-  // 🔹 導航列事件註冊
-  links.forEach(link => {
+  // ===============================
+  // 共用 JS（只載一次）
+  // ===============================
+  const COMMON_SCRIPTS = [
+    `${HIS_BASE}/common/js/vue.global.prod.js`,
+    `${HIS_BASE}/common/js/utilities.js`,
+    `${HIS_BASE}/common/js/condition-config.js`,
+    `${HIS_BASE}/common/js/condition-engine.js`,
+    `${HIS_BASE}/common/js/modal.js`,
+    `${HIS_BASE}/common/js/register-system.js`
+  ];
+
+  const loadedScripts = new Set();
+
+  function loadScriptOnce(src) {
+    return new Promise((resolve, reject) => {
+      if (loadedScripts.has(src)) {
+        return resolve();
+      }
+      const s = document.createElement("script");
+      s.src = src;
+      s.onload = () => {
+        loadedScripts.add(src);
+        console.log("[router] script loaded:", src);
+        resolve();
+      };
+      s.onerror = () => {
+        console.error("[router] script load failed:", src);
+        reject();
+      };
+      document.body.appendChild(s);
+    });
+  }
+
+  // ===============================
+  // page → JS 對照表
+  // ===============================
+  const PAGE_JS_MAP = {
+    "reg_form.html":      "reg_form.js",
+    "reg_by_doctor.html":"reg_by_doctor.js",
+    "reg_by_date.html":  "reg_by_date.js",
+    "reg_by_dep.html":   "reg_by_dep.js",
+    "reg_list.html":     "reg_list.js",
+    "reg_info.html":     "reg_info.js"
+  };
+
+  // ===============================
+  // Vue instance 管理
+  // ===============================
+  function destroyVueApp() {
+    if (window.__vue_app__ && typeof window.__vue_app__.unmount === "function") {
+      console.log("[router] Vue unmount");
+      window.__vue_app__.unmount();
+      window.__vue_app__ = null;
+    }
+  }
+
+  // ===============================
+  // 載入頁面
+  // ===============================
+  async function loadPage(page) {
+    try {
+      console.log("[router] loading page:", page);
+
+      destroyVueApp();
+
+      content.innerHTML = `<p>頁面載入中...</p>`;
+
+      // 1️⃣ 先載共用 JS
+      for (const src of COMMON_SCRIPTS) {
+        await loadScriptOnce(src);
+      }
+
+      // 2️⃣ 載 HTML
+      const res = await fetch(`${PAGE_BASE}/${page}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      content.innerHTML = await res.text();
+
+      // 3️⃣ 載對應 JS
+      const pageJS = PAGE_JS_MAP[page];
+      if (pageJS) {
+        const jsPath = `${JS_BASE}/${pageJS}`;
+
+        // 移除舊的同名 script（避免 cache 問題）
+        document
+          .querySelectorAll(`script[data-page-js="${pageJS}"]`)
+          .forEach(s => s.remove());
+
+        await new Promise((resolve, reject) => {
+          const s = document.createElement("script");
+          s.src = jsPath;
+          s.dataset.pageJs = pageJS;
+          s.onload = () => {
+            console.log("[router] page script loaded:", jsPath);
+            resolve();
+          };
+          s.onerror = () => {
+            console.error("[router] page script failed:", jsPath);
+            reject();
+          };
+          document.body.appendChild(s);
+        });
+      }
+
+      console.log("[router] page loaded:", page);
+
+    } catch (err) {
+      console.error("[router] load failed:", err);
+      content.innerHTML = `<p style="color:red">載入失敗：${err.message}</p>`;
+    }
+  }
+
+  // ===============================
+  // 綁定選單
+  // ===============================
+  document.querySelectorAll("[data-page]").forEach(link => {
     link.addEventListener("click", e => {
       e.preventDefault();
-      const page = link.getAttribute("data-page");
-      if (page) {
-        console.log(`[router.js] 🔗 點擊連結，載入頁面: ${page}`);
-        loadPage(`pages/${page}`); // 統一從 /pages/ 資料夾載入
-      }
+      const page = link.dataset.page;
+      if (page) loadPage(page);
     });
   });
 
-  // 🔹 載入指定頁面
-  async function loadPage(page) {
-    try {
-      console.log(`[router.js] 🚀 載入頁面中: ${page}`);
-      content.innerHTML = `<p style="text-align:center; color:gray;">正在載入頁面...</p>`;
-
-      const res = await fetch(page);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const html = await res.text();
-
-      // 插入頁面內容
-      content.innerHTML = html;
-
-      // ✅ 重新執行該頁的 <script>
-      const scripts = content.querySelectorAll("script[src]");
-      console.log(`[router.js] 📜 準備載入 ${scripts.length} 個 script`);
-
-      scripts.forEach(oldScript => {
-        const newScript = document.createElement("script");
-        let src = oldScript.getAttribute("src");
-
-        // 🔧 修正相對路徑（確保在 Register/js 內載入）
-        if (!src.startsWith("http") && !src.startsWith("/")) {
-          src = `js/${src.split("/").pop()}`;
-        }
-
-        newScript.src = src;
-        newScript.onload = () =>
-          console.log(`[router.js] ✅ Script loaded successfully: ${src}`);
-        newScript.onerror = () =>
-          console.error(`[router.js] ❌ Script load failed: ${src}`);
-
-        document.body.appendChild(newScript);
-      });
-
-      console.log(`[router.js] ✅ 頁面載入完成: ${page}`);
-    } catch (err) {
-      console.error(`[router.js] ❌ 載入失敗: ${err.message}`);
-      content.innerHTML = `<p style="color:red; text-align:center;">載入失敗，請確認路徑或檔案存在。</p>`;
-    }
-  }
-});
+})();

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>系統維護｜資料檢核</title>
+  <!--20251224(防炸穩定版）-->
+  <!-- 共用樣式 -->
+  <link rel="stylesheet" href="../../common/css/base.css">
+  <link rel="stylesheet" href="../../common/css/layout.css">
+  <link rel="stylesheet" href="../../common/css/components.css">
+  <link rel="stylesheet" href="../../common/css/util.css">
+
+  <!-- 本頁樣式 -->
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+  <h2>🛠 系統維護 / 資料檢核</h2>
+
+  <!-- 操作區 -->
+  <section id="maintain-actions">
+    <button id="btnCheckDB">檢核掛號資料表</button>
+  </section>
+
+  <!-- 狀態顯示 -->
+  <section id="maintain-status">
+    <p id="statusText">尚未開始檢核</p>
+  </section>
+
+  <!-- 結果摘要 -->
+  <section id="maintain-summary">
+    <strong id="summaryText"></strong>
+  </section>
+
+  <!-- 結果表格 -->
+  <section id="maintain-result">
+    <table border="1" width="100%">
+      <thead>
+        <tr>
+          <th>等級</th>
+          <th>資料表</th>
+          <th>筆次</th>
+          <th>欄位</th>
+          <th>說明</th>
+        </tr>
+      </thead>
+      <tbody id="resultTableBody">
+        <!-- JS 動態插入 -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 共用工具 -->
+  <script src="../../common/js/utilities.js"></script>
+  <script src="../../common/js/db-checker.js"></script>
+
+  <!-- 本頁控制 -->
+  <script src="../js/maintain.js"></script>
+</body>
+</html>

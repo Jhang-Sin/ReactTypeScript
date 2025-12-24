@@ -1,4 +1,12 @@
-<h2>掛號作業</h2>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../css/register.css" />
+</head>
+<body>
+
+<h2>📋 掛號作業</h2>
 
 <section class="search-area">
   <label>病歷號：[測試號:P001/P002/P003]
@@ -9,10 +17,12 @@
 
 <section id="patientResult" class="card"></section>
 
-<section id="doctorSection" style="display:none;">
+<section id="doctorSection" class="card" style="display:none;">
   <h3>可掛號醫師清單</h3>
   <div id="doctorList"></div>
 </section>
+ <!-- 不載入任何script 由router處理 -->
 
-<script src="../js/data-loader.js"></script>
-<script src="../js/reg_form.js"></script>
+
+</body>
+</html>

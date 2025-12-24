@@ -1,0 +1,12 @@
+[
+  { "code": "Cardiology", "zh": "心臟內科", "en": "Cardiology" },
+  { "code": "Neurology", "zh": "神經內科", "en": "Neurology" },
+  { "code": "Dermatology", "zh": "皮膚科", "en": "Dermatology" },
+  { "code": "Pediatrics", "zh": "小兒科", "en": "Pediatrics" },
+  { "code": "Orthopedics", "zh": "骨科", "en": "Orthopedics" },
+  { "code": "Ophthalmology", "zh": "眼科", "en": "Ophthalmology" },
+  { "code": "ENT", "zh": "耳鼻喉科", "en": "Otolaryngology" },
+  { "code": "Obstetrics", "zh": "婦產科", "en": "Obstetrics & Gynecology" },
+  { "code": "Urology", "zh": "泌尿科", "en": "Urology" },
+  { "code": "GeneralMedicine", "zh": "一般內科", "en": "General Medicine" }
+]

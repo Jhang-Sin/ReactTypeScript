@@ -1,0 +1,32 @@
+/* layout.css （畫面骨架）*/
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 12px 20px;
+}
+
+.container {
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+
+nav {
+  width: 220px;
+  background: #34495e;
+}
+
+nav a {
+  display: block;
+  padding: 10px 14px;
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  background: #3d566e;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
