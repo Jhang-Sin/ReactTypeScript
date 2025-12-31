@@ -2,59 +2,90 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
-  <title>系統維護｜資料檢核</title>
-  <!--20251224(防炸穩定版）-->
-  <!-- 共用樣式 -->
+  <title>HIS 系統維護 / 資料檢核</title>
+
+  <!-- 共用樣式（你已規劃好的結構） -->
   <link rel="stylesheet" href="../../common/css/base.css">
   <link rel="stylesheet" href="../../common/css/layout.css">
   <link rel="stylesheet" href="../../common/css/components.css">
   <link rel="stylesheet" href="../../common/css/util.css">
 
-  <!-- 本頁樣式 -->
+  <!-- 管理頁專用樣式 -->
   <link rel="stylesheet" href="../css/admin.css">
+
+  <!-- 共用 JS -->
+  <script src="../../common/js/utilities.js"></script>
+  <script src="../../common/js/modal.js"></script>
+
+  <!-- DB 檢核核心 -->
+  <script src="../../common/js/db-checker.js"></script>
+
+  <!-- 本頁控制 JS -->
+  <script src="../js/maintain.js" defer></script>
 </head>
 
 <body>
-  <h2>🛠 系統維護 / 資料檢核</h2>
+  <header class="admin-header">
+    <h1>HIS 系統維護</h1>
+    <div class="admin-subtitle">資料檢核 / 資料檢視</div>
+  </header>
 
-  <!-- 操作區 -->
-  <section id="maintain-actions">
-    <button id="btnCheckDB">檢核掛號資料表</button>
-  </section>
+  <main class="admin-container">
 
-  <!-- 狀態顯示 -->
-  <section id="maintain-status">
-    <p id="statusText">尚未開始檢核</p>
-  </section>
+    <!-- ===============================
+         區塊一：資料表檢核
+         =============================== -->
+    <section class="admin-section">
+      <h2>📋 掛號資料表檢核</h2>
 
-  <!-- 結果摘要 -->
-  <section id="maintain-summary">
-    <strong id="summaryText"></strong>
-  </section>
+      <div class="admin-actions">
+        <!-- ⚠️ ID 與 maintain.js 對齊 -->
+        <button id="btnCheckDB" class="btn btn-primary">
+          檢核掛號資料表
+        </button>
+      </div>
 
-  <!-- 結果表格 -->
-  <section id="maintain-result">
-    <table border="1" width="100%">
-      <thead>
-        <tr>
-          <th>等級</th>
-          <th>資料表</th>
-          <th>筆次</th>
-          <th>欄位</th>
-          <th>說明</th>
-        </tr>
-      </thead>
-      <tbody id="resultTableBody">
-        <!-- JS 動態插入 -->
-      </tbody>
-    </table>
-  </section>
+      <!-- 檢核結果顯示區 -->
+      <div id="dbCheckResult" class="admin-result">
+        <!-- JS 動態填入 -->
+      </div>
+    </section>
 
-  <!-- 共用工具 -->
-  <script src="../../common/js/utilities.js"></script>
-  <script src="../../common/js/db-checker.js"></script>
+    <hr />
 
-  <!-- 本頁控制 -->
-  <script src="../js/maintain.js"></script>
+    <!-- ===============================
+         區塊二：DB Viewer
+         =============================== -->
+    <section class="admin-section">
+      <h2>🗂️ 資料表檢視（DB Viewer）</h2>
+
+      <div class="admin-actions">
+        <label for="dbSelect">選擇資料表：</label>
+
+        <!-- ⚠️ ID 與 maintain.js 對齊 -->
+        <select id="dbSelect">
+          <option value="">-- 請選擇 --</option>
+        </select>
+
+        <!-- ⚠️ ID 與 maintain.js 對齊 -->
+        <button id="btnLoadDB" class="btn">
+          載入資料
+        </button>
+      </div>
+
+      <!-- Viewer 標題 -->
+      <h3 id="dbViewTitle" class="admin-db-title"></h3>
+
+      <!-- Viewer 結果 -->
+      <div id="dbViewResult" class="admin-result">
+        <!-- JS 動態填入 -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="admin-footer">
+    <small>HIS Admin Maintain © 2025</small>
+  </footer>
 </body>
 </html>

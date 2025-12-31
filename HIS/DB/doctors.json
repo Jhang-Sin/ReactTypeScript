@@ -1,8 +1,11 @@
 [
-  {"id":"D001","name":"林醫師","dept":"Dermatology","depCode":"01"},
-  {"id":"D002","name":"張醫師","dept":"Orthopedics","depCode":"02"},
-  {"id":"D003","name":"王醫師","dept":"Neurology","depCode":"04"},
-  {"id":"D004","name":"呂醫師","dept":"Neurology","depCode":"01"},
-  {"id":"D005","name":"陳醫師","dept":"Neurology","depCode":"03"},
-  {"id":"D006","name":"李醫師","dept":"Neurology","depCode":"05"}
+  {"id":"D001","name":"林醫師","dept":"Dermatology","depCode":"05"},
+  {"id":"D002","name":"張醫師","dept":"Orthopedics","depCode":"07"},
+  {"id":"D003","name":"王醫師","dept":"Neurology","depCode":"05"},
+  {"id":"D004","name":"呂醫師","dept":"Neurology","depCode":"07"},
+  {"id":"D005","name":"陳醫師","dept":"Neurology","depCode":"05"},
+  {"id":"D006","name":"李醫師","dept":"Neurology","depCode":"03"},
+  {"id":"D007","name":"李醫師","dept":"Neurology","depCode":"09"},
+  {"id":"D008","name":"陳醫師","dept":"Pulmonology","depCode":"AC"},
+  {"id":"D009","name":"李醫師","dept":"Neurology","depCode":"04"}
 ]
