@@ -1,4 +1,4 @@
 [
-  {"id":"D101","name":"呂醫師","dept":"Dermatology"},
-  {"id":"D102","name":"謝醫師","dept":"Orthopedics"}
+  {"doctorId":"D101","name":"呂醫師","dept":"Dermatology"},
+  {"doctorId":"D102","name":"謝醫師","dept":"Orthopedics"}
 ]

@@ -6,7 +6,7 @@
   <!-- 科別選擇 -->
   <section class="search-area">
     <label>選擇科別：</label>
-    <select v-model="selectedDepCode" @change="loadSchedule">
+    <select v-model="selectedDepCode" @change="loadDep(selectedDepCode)">
       <option value="">-- 請選擇科別 --</option>
       <option
         v-for="dep in depList"
@@ -14,9 +14,10 @@
         :value="dep.code"
       >
         {{ dep.zh }}
+        
       </option>
-    </select>
-  </section>
+    </select>    
+  </section> 
 
   <!-- 排班表 -->
   <section

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>行事曆元件測試頁</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./calendar.css">
+
+  <!-- JS（順序很重要） -->
+  <script src="./calendar-core.js"></script>
+  <script src="./calendar-renderer.js"></script>
+  <!-- <script src="./calendar-adapter.js"></script> -未來界接->
+</head>
+
+<body>
+
+  <h2>行事曆元件測試頁</h2>
+
+  <div id="calendar"></div>
+
+  <!-- ✅ 一定要在 DOM 後 -->
+  <script>
+    const core = new HIS.Calendar.Core({
+      defaultDays: 30,
+      disabledDates: ["2026-01-20"]
+    });
+
+    core.setData(new Date(), "今天有資料");
+
+    const renderer = new HIS.Calendar.Renderer(core, {
+      container: document.getElementById("calendar"),
+      onCellClick(day) {
+        console.log("click", day);
+      }
+    });
+
+    renderer.render();
+  </script>
+
+</body>
+</html>

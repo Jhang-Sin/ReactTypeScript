@@ -1,0 +1,44 @@
+<!-- HIS/Register/pages/reg_by_date.html -->
+<div id="app" class="reg-container">
+
+  <h2>依日期掛號</h2>
+
+  <!-- 日期選擇 -->
+<input
+  type="date"
+  v-model="selectedDate"
+  @change="loadSchedule"
+/>
+
+<!-- 排班結果 -->
+<table v-if="scheduleList.length">
+  <thead>
+    <tr>
+      <th>醫師</th>
+      <th>科別</th>
+      <th>時段</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="item in scheduleList" :key="item.schedule_NO">
+      <td>{{ item.doctorName }}</td>
+      <td>{{ item.depName }}</td>
+      <td>{{ noonMap[item.noon]?.value }}</td>
+      <td>
+        <button @click="register(item)">掛號</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+  <!-- 無資料提示 -->
+  <p
+    v-if="pageReady && selectedDate && scheduleList.length === 0"
+    class="empty-msg"
+  >
+    此日期無門診資料
+  </p>
+
+</div>

@@ -2,34 +2,64 @@
 
   <h2>依醫師掛號</h2>
 
-  <select v-model="selectedDoctorId" @change="loadSchedule">
+  <!-- 醫師選擇 -->
+  <!-- <select v-model="selectedDoctorId" @change="loadSchedule">
     <option value="">-- 請選擇醫師 --</option>
-    <option v-for="doc in doctorList" :key="doc.id" :value="doc.id">
-      {{ doc.name }}（{{ doc.department }}）
+    <option
+      v-for="doc in doctors"
+      :key="doc.id"
+      :value="doc.id"
+    >
+      {{ doc.name }}
     </option>
-  </select>
+  </select> -->
+  
+<select v-model="selectedDoctorId" @change="loadSchedule">
+  <option value="">-- 請選擇醫師 --</option>
+  <option
+    v-for="doc in doctors" 
+    :key="doc.doctorId"
+    :value="doc.doctorId"
+  >
+    {{ doc.name +'-'+doc.doctorId}} 
+  </option>
+</select>
 
-  <!-- 排班表：一定要防 undefined -->
-  <table v-if="Array.isArray(schedule) && schedule.length > 0">
-    <tr>
-      <th>日期</th>
-      <th>時段</th>
-      <th>科別</th>
-      <th></th>
-    </tr>
 
-    <tr v-for="item in schedule" :key="item.id">
-      <td>{{ item.date }}</td>
-      <td>{{ noonMap[item.noon]?.value }}</td>
-      <td>{{ depMap[item.depCode]?.zh }}</td>
-      <td>
-        <button @click="register(item)">掛號</button>
-      </td>
-    </tr>
+
+  <!-- 載入中提示 -->
+  <p v-if="loading">資料載入中...</p>
+
+  <!-- 錯誤訊息 -->
+  <p v-if="errorMsg" class="error-msg">
+    {{ errorMsg }}
+  </p>
+
+  <!-- 排班表 -->
+  <table v-if="Array.isArray(scheduleList) && scheduleList.length > 0">
+    <thead>
+      <tr>
+        <th>日期</th>
+        <th>時段</th>
+        <th>科別</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr v-for="item in scheduleList" :key="item.schedule_NO">
+        <td>{{ item.date }}</td>
+        <td>{{ noonMap[item.noon]?.value }}</td>
+        <td>{{ item.depName }}</td>
+        <td>
+          <button @click="register(item)">掛號</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 
-  <!-- 沒資料時可顯示提示（選配） -->
-  <p v-else-if="selectedDoctorId">
+  <!-- 有選醫師但無資料 -->
+  <p v-else-if="selectedDoctorId && !loading && !errorMsg">
     查無排班資料
   </p>
 

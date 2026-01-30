@@ -1,11 +1,13 @@
+
 [
-  {"id":"D001","name":"林醫師","dept":"Dermatology","depCode":"05"},
-  {"id":"D002","name":"張醫師","dept":"Orthopedics","depCode":"07"},
-  {"id":"D003","name":"王醫師","dept":"Neurology","depCode":"05"},
-  {"id":"D004","name":"呂醫師","dept":"Neurology","depCode":"07"},
-  {"id":"D005","name":"陳醫師","dept":"Neurology","depCode":"05"},
-  {"id":"D006","name":"李醫師","dept":"Neurology","depCode":"03"},
-  {"id":"D007","name":"李醫師","dept":"Neurology","depCode":"09"},
-  {"id":"D008","name":"陳醫師","dept":"Pulmonology","depCode":"AC"},
-  {"id":"D009","name":"李醫師","dept":"Neurology","depCode":"04"}
+  {"doctorId":"D001","name":"林A師","dept":"Dermatology","depCode":"05"},
+  {"doctorId":"D002","name":"張A師","dept":"Orthopedics","depCode":"07"},
+  {"doctorId":"D003","name":"王A師","dept":"Neurology","depCode":"05"},
+  {"doctorId":"D004","name":"呂A師","dept":"Neurology","depCode":"07"},
+  {"doctorId":"D005","name":"陳A師","dept":"Neurology","depCode":"05"},
+  {"doctorId":"D006","name":"李A師","dept":"Neurology","depCode":"03"},
+  {"doctorId":"D007","name":"李B師","dept":"Neurology","depCode":"09"},
+  {"doctorId":"D008","name":"陳B師","dept":"Pulmonology","depCode":"AC"},
+  {"doctorId":"D009","name":"李B師","dept":"Neurology","depCode":"04"},
+  {"doctorId":"D010","name":"李B師","dept":"Dialysis","depCode":"2B"}
 ]

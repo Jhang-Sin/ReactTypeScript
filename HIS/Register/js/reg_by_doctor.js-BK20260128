@@ -2,7 +2,12 @@
  * reg_by_doctor.js
  * -------------------------------------------------
  * 依醫師掛號頁（Phase 1）
- * 20260128
+ * - 使用 reg_base.js
+ * - router.js 負責 unmount
+ * - 本檔案不可宣告全域 const / let
+ * -2026-01-16
+* - Vue App 由 router.js 負責 unmount / remount
+ * - 本檔案不可自行判斷是否已存在 Vue instance
  */
 
 console.log("[reg_by_doctor] script loaded");
@@ -12,10 +17,22 @@ console.log("[reg_by_doctor] script loaded");
 // ==================================================
 (() => {
 
+ 
+// ==================================================
+// 🛡 Guard：避免重複 mount（但允許重建）
+// ==================================================
+
+//20260116-修正START不使用下列判斷-page JS 再做 guard = 兩個指揮官互相打架
+// if (window.__vue_app__) {
+//   console.warn("[reg_by_doctor] Vue app already exists, skip mount");
+//   return;
+// }
+//20260116-修正END
+
   // ==================================================
   // 建立 Vue App（不可用 const 宣告在全域）
   // ==================================================
-  const app = createRegBaseApp({
+  const app = createRegBaseApp({     ////從vueApp改成app -20260116
     pageName: "reg_by_doctor",
 
     /* =================================================
@@ -26,16 +43,17 @@ console.log("[reg_by_doctor] script loaded");
 
       this.IniFlag = 0;
 
-      // ✔ 與 HTML / reg_base.js 對齊
+      // ✔ 與 HTML 對齊的資料名稱
       this.doctors = [];
-      this.schedules = [];
+      this.schedules = [];     // ← 補20260116
       this.scheduleList = [];
 
       this.selectedDoctorId = "";
 
       console.log("[1:init] done");
 
-      this.GetData();
+      // 推進流程
+      this.GetData();   // 👉【流程】
     },
 
     extendMethods: {
@@ -46,7 +64,7 @@ console.log("[reg_by_doctor] script loaded");
       GetData() {
         console.log("[2:GetData] start");
 
-        // ⚠️ 關鍵：不要改這裡
+        // reg_base.js 已載入的資料
         this.doctors = Array.isArray(this.doctorList)
           ? this.doctorList
           : [];
@@ -60,7 +78,7 @@ console.log("[reg_by_doctor] script loaded");
           scheduleCount: this.schedules.length
         });
 
-        this.DataSetInView();
+        this.DataSetInView();   // 👉【流程】
       },
 
       /* =================================================
@@ -69,9 +87,10 @@ console.log("[reg_by_doctor] script loaded");
       DataSetInView() {
         console.log("[3:DataSetInView] start");
 
+        // 尚未選醫師，清空結果
         this.scheduleList = [];
 
-        this.initFinish();
+        this.initFinish();   // 👉【流程】
       },
 
       /* =================================================
@@ -86,7 +105,7 @@ console.log("[reg_by_doctor] script loaded");
        * 👉【事件】使用者選擇醫師
        * ================================================= */
       loadSchedule() {
-        console.log("[event:loadSchedule]", this.selectedDoctorId);
+        console.log("[event:loadSchedule]");
 
         if (!this.selectedDoctorId) {
           this.scheduleList = [];
@@ -101,7 +120,7 @@ console.log("[reg_by_doctor] script loaded");
       },
 
       /* =================================================
-       * 👉【工具】資料 JOIN（修正點在這）
+       * 👉【工具】資料 JOIN
        * ================================================= */
       joinSchedule(s) {
         const doctor = this.doctors.find(
@@ -111,8 +130,7 @@ console.log("[reg_by_doctor] script loaded");
 
         return {
           ...s,
-          // doctorName: doctor.doctorName,   // 修正-20260128註解掉
-          doctorName: doctor.name,//20260128修正
+          doctorName: doctor.doctorName,
           depName: this.depMap[s.depCode]?.zh || "",
           noonLabel: this.noonMap[s.noon]?.label || s.noon
         };
@@ -122,9 +140,7 @@ console.log("[reg_by_doctor] script loaded");
        * 👉【事件】掛號
        * ================================================= */
       register(item) {
-        alert(
-          `掛號成功\n醫師：${item.doctorName}\n日期：${item.date}`
-        );
+        alert(`掛號成功\n醫師：${item.doctorName}\n日期：${item.date}`);
       }
     }
   });
@@ -132,9 +148,13 @@ console.log("[reg_by_doctor] script loaded");
   // ==================================================
   // 🚩 統一出口（router.js 會 unmount）
   // ==================================================
-  app.mount("#app");
-  window.__vue_app__ = app;
+  ////window.__vue_app__ = app.mount("#app"); ////vueApp改成app=>修正成下面這兩行
+
+app.mount("#app");
+// 🚩 一定要存「App instance」
+window.__vue_app__ = app;
 
   console.log("[reg_by_doctor] mounted");
+  console.log("doc-js-20260116");
 
 })();

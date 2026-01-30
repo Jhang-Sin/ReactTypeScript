@@ -14,7 +14,8 @@
       document.getElementById("doctorSection").style.display = "none";
       return;
     }
-
+    
+    ///有找到資料時///
     resultDiv.innerHTML = `
       <h3>病歷資料</h3>
       <p>姓名：${patient.name}</p>
@@ -37,21 +38,23 @@
     list.innerHTML = data
       .map(d => `
         <div class="doctor-card">
-          <p><strong>${d.name}</strong>（${d.department}）</p>
-          <button data-doc="${d.id}">掛號</button>
+          <p><strong>${d.name}</strong>（${d.dept}）</p>
+          <button data-doc="${d.doctorId}">掛號</button>           
         </div>
       `)
       .join("");
 
     list.querySelectorAll("button").forEach(btn => {
       btn.addEventListener("click", () => {
-        const doctorId = btn.getAttribute("data-doc");
-        const doctor = data.find(d => d.id === doctorId);
-        if (!doctor) return;
+        // const doctorId = btn.getAttribute("data-doc");        
+        // const doctor = data.find(d => d.id === doctorId);
+        // console.log('doctor=' + doctor);
+        // if (!doctor) return;
+        // console.log('NoData');
 
         alert(
           `病歷號：${patient.id}\n` +
-          `醫師：${doctor.name}\n` +
+          // `醫師：${doctor.name}\n` +
           `掛號時間：${new Date().toLocaleString()}\n\n掛號成功！`
         );
       });

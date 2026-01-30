@@ -1,10 +1,10 @@
 // ==============================
 // HIS DB Checker - Final Stable Version
-//2025-12-31
+//2025-1-20
 // ==============================
 /**
  * HIS DB Checker
- * 最終 depCode 正確檢核版
+ * 最終 depCode 正確檢核版-加強
  */
 
 window.HIS = window.HIS || {};
@@ -36,45 +36,89 @@ HIS.dbChecker = {
       /* ========= 建立檢核 Set ========= */
       const depCodeSet = new Set(Object.keys(depMap));
       const noonSet = new Set(Object.keys(noonType));
-      const doctorIdSet = new Set(doctors.map(d => String(d.id).trim()));
+
+      // 同時保留「原始 doctorId」與「正規化 doctorId」
+      const doctorIdSet = new Set(
+        doctors.map(d =>
+          normalizeId(d.doctorId ?? d.id)
+        )
+      );
 
       /* ========= 逐筆檢核 ========= */
       schedule.forEach((item, index) => {
         const row = normalizeRow(item);
 
+        const context = {
+          index,
+          schedule_NO: item.schedule_NO ?? "(unknown)",
+          date: item.date ?? ""
+        };
+
         // doctorId
         if (!row.doctorId) {
-          result.push(err("schedule", index, "doctorId", "缺少 doctorId"));
+          result.push(err(
+            "schedule",
+            context,
+            "doctorId",
+            "缺少 doctorId",
+            { raw: item.doctorId }
+          ));
         } else if (!doctorIdSet.has(row.doctorId)) {
           result.push(err(
             "schedule",
-            index,
+            context,
             "doctorId",
-            `doctorId 不存在 (${row.doctorId})`
+            `doctorId 不存在`,
+            {
+              raw: item.doctorId,
+              normalized: row.doctorId,
+              type: typeof item.doctorId,
+              hint: "請檢查大小寫、前後空白或 doctors.json 是否缺資料"
+            }
           ));
         }
 
         // depCode（唯一來源：dep_map.json）
         if (!row.depCode) {
-          result.push(err("schedule", index, "depCode", "缺少科別代碼"));
+          result.push(err(
+            "schedule",
+            context,
+            "depCode",
+            "缺少科別代碼",
+            { raw: item.depCode }
+          ));
         } else if (!depCodeSet.has(row.depCode)) {
           result.push(err(
             "schedule",
-            index,
+            context,
             "depCode",
-            `科別代碼不存在 (${row.depCode})`
+            `科別代碼不存在`,
+            {
+              raw: item.depCode,
+              normalized: row.depCode
+            }
           ));
         }
 
         // noon
         if (!row.noon) {
-          result.push(err("schedule", index, "noon", "缺少午別"));
+          result.push(err(
+            "schedule",
+            context,
+            "noon",
+            "缺少午別",
+            { raw: item.noon }
+          ));
         } else if (!noonSet.has(row.noon)) {
           result.push(err(
             "schedule",
-            index,
+            context,
             "noon",
-            `午別代碼不存在 (${row.noon})`
+            `午別代碼不存在`,
+            {
+              raw: item.noon,
+              normalized: row.noon
+            }
           ));
         }
 
@@ -82,9 +126,10 @@ HIS.dbChecker = {
         if (!row.date) {
           result.push(warn(
             "schedule",
-            index,
+            context,
             "date",
-            "未填寫日期"
+            "未填寫日期",
+            { raw: item.date }
           ));
         }
       });
@@ -113,6 +158,10 @@ HIS.dbChecker = {
  * 工具區
  * ========================= */
 
+function normalizeId(val) {
+  return val == null ? "" : String(val).trim().toUpperCase();
+}
+
 function normalizeSchedule(raw) {
   if (Array.isArray(raw)) return raw;
   if (raw && Array.isArray(raw.schedules)) return raw.schedules;
@@ -121,30 +170,36 @@ function normalizeSchedule(raw) {
 
 function normalizeRow(row) {
   return {
-    doctorId: row.doctorId ? String(row.doctorId).trim() : "",
+    doctorId: normalizeId(row.doctorId),
     depCode: row.depCode ? String(row.depCode).trim() : "",
     noon: row.noon ? String(row.noon).trim() : "",
     date: row.date ? String(row.date).trim() : ""
   };
 }
 
-function err(table, index, field, message) {
+function err(table, context, field, message, detail = {}) {
   return {
     level: "ERROR",
     table,
-    index,
+    index: context.index,
+    schedule_NO: context.schedule_NO,
+    date: context.date,
     field,
-    message
+    message,
+    detail
   };
 }
 
-function warn(table, index, field, message) {
+function warn(table, context, field, message, detail = {}) {
   return {
     level: "WARN",
     table,
-    index,
+    index: context.index,
+    schedule_NO: context.schedule_NO,
+    date: context.date,
     field,
-    message
+    message,
+    detail
   };
 }
 
