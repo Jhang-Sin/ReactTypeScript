@@ -1,0 +1,23 @@
+[ UI Pages (HTML / React Component) ]
+            │
+            ▼
+[ Register JS Modules ]
+(reg_by_date / reg_by_doctor / reg_by_dep)
+            │
+            ▼
+[ Core Engines ]
+- register-system.js
+- schedule-engine.js
+- condition-engine.js
+            │
+            ▼
+[ Data Source (JSON / API) ]
+- doctors.json
+- schedule.json
+- dep_map.json
+- noon_type.json
+
+=================
+-UI 不直接碰 DB
+-所有業務規則集中在 Engine
+-資料 JOIN 發生在前端

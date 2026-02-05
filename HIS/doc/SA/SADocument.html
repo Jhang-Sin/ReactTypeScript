@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>System Analysis Document</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        font-family: Arial, sans-serif;
+    }
+
+    /* 左側 table 區塊 */
+    #left {
+        width: 30%;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    td {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+    }
+
+    td:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* 右側顯示區 */
+    #right {
+        width: 70%;
+        padding: 15px;
+        overflow-y: auto;   /* 直向 scrollbar */
+        white-space: pre-wrap; /* 保留換行 */
+    }
+</style>
+</head>
+
+<body>
+
+<!-- 左邊 -->
+<div id="left">
+    <table id="fileTable"></table>
+</div>
+
+<!-- 右邊 -->
+<div id="right"></div>
+
+<script>
+/*
+ * 檔案對應表
+ * key   : 顯示名稱
+ * value : 實際檔案路徑
+ * 未來只要改這裡就好
+ * (顯示名稱):"(讀取檔案名稱)"
+ */
+const fileMap = {
+    "版權所有": "00_版權所有.txt",
+    "系統總覽": "01_系統總覽(System Overview).txt",
+    "系統架構": "02_系統架構(System Architecture).txt",
+    "功能規格": "03_功能規格(Functional Spec).txt",
+    "資料模型": "04_資料模型(DataModel ERD).txt",
+    "流程設計":"05_流程設計(Process Design).txt",
+    "前端架構與模組":"06_前端架構與模組說明(Frontend Architecture).txt",
+    "API核心模組規格":"07_API核心模組規格.txt",
+    "非功能性需求(NFR)":"08_非功能性需求(NFR).txt",
+};
+
+const table = document.getElementById("fileTable");
+const rightDiv = document.getElementById("right");
+
+/* 動態產生左側列表 */
+Object.keys(fileMap).forEach(name => {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+
+    td.textContent = name;
+    td.addEventListener("click", () => loadFile(name));
+
+    tr.appendChild(td);
+    table.appendChild(tr);
+});
+
+/* 點選檔案後的行為 */
+function loadFile(fileName) {
+    // 1. 清空右側 DIV
+    rightDiv.textContent = "";
+
+    // 2. 依對應表讀取檔案
+    const filePath = fileMap[fileName];
+
+    fetch(filePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("讀取失敗");
+            }
+            return response.text();
+        })
+        .then(text => {
+            rightDiv.textContent = text;
+        })
+        .catch(err => {
+            rightDiv.textContent = "無法讀取檔案：" + err.message;
+        });
+}
+</script>
+
+</body>
+</html>

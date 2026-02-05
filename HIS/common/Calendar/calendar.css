@@ -1,18 +1,81 @@
-.his-calendar { font-family: Arial; }
-.his-calendar__header { margin-bottom: 8px; }
-.his-calendar__table { border-collapse: collapse; }
+/* ===============================
+   Calendar 主容器
+   =============================== */
+.his-calendar {
+  font-family: Arial, system-ui, -apple-system;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   Header
+   =============================== */
+.his-calendar__header {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ===============================
+   Calendar Table
+   =============================== */
+.his-calendar__table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 仍保留，避免橫向爆 */
+}
+
+/* ===============================
+   日期格子 td
+   =============================== */
 .his-calendar__cell {
   border: 1px solid #ccc;
-  width: 120px;
-  height: 100px;
+  width: calc(100% / 7);
+  min-height: 96px;           /* ⭐ 不壓縮 */
+  padding: 6px;
   vertical-align: top;
-  padding: 4px;
+  box-sizing: border-box;
+
+  white-space: normal;        /* ⭐ 允許換行 */
+  word-break: break-word;     /* ⭐ 避免長字串撐破 */
+
+  cursor: pointer;
+  background: #fff;
+
+  transition: background-color .15s, border-color .15s;
 }
+
+/* Hover */
+.his-calendar__cell:hover {
+  background: #e9f5ff;
+  border-color: #409eff;
+}
+
+/* Today 只作為語意標記，不顯示選取框 */
+.his-calendar__cell.is-today {
+  outline: none; /*取消預設邊框 2px solid #4caf50 改 =>none,選擇後才有框20260203*/
+  background: #f9fff9; /* 可選，淡淡提示 */
+  font-weight: 600;
+}
+
+/* 只有 active 才是真正選取 */
+.his-calendar__cell.is-selected {
+  background: #409eff;
+  color: #fff;
+  border-color: #409eff;
+}
+
+/* Disabled */
 .his-calendar__cell.is-disabled {
   background: #eee;
-  opacity: 0.5;
+  opacity: .5;
   pointer-events: none;
 }
-.his-calendar__cell.is-today {
+
+/* 被點選的日期（td 外框） 20260203-add*/
+.his-calendar__cell.is-active {
   outline: 2px solid #4caf50;
+  outline-offset: -2px;
+  background: #f3fbf3;
 }

@@ -1,0 +1,18 @@
+模組分類原則
+
+common/js：
+無 UI、無業務流程，只提供能力
+
+Register/js：
+頁面流程控制（Controller / ViewModel）
+
+DB：
+純資料，不含邏輯
+
+| 檔案                  | 類型              | 職責      |
+| -------------------   | ---------------  | -------   |
+| schedule-engine.js    | Engine           | 排班計算    |
+| condition-engine.js   | Rule Engine      | 掛號條件判斷  |
+| reg_by_doctor.js      | Page Controller  | 依醫師掛號流程 |
+
+更新日期-20260204

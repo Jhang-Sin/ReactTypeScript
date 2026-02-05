@@ -43,8 +43,6 @@ console.log("[reg_by_date] script loaded");
 
       // 👉【流程】
       this.GetData();
-      ///20260130-add 行事曆元件
-      this.initCalendar();
     },
 
     extendMethods: {
@@ -142,58 +140,6 @@ console.log("[reg_by_date] script loaded");
           this.scheduleList.length
         );
       },
-
-      
-
-      /////20260130-ADD-START
-      /* =================================================
- * 👉【流程】初始化 Calendar
- * ================================================= */
-initCalendar() {
-  console.log("[calendar:init]");
-
-  this.calendarCore = new HIS.Calendar.Core({
-    defaultDays: 30,
-    minDate: new Date(),     // 今天
-    disabledDates: []        // 之後可接額滿日
-  });
-
-  this.calendarRenderer = new HIS.Calendar.Renderer(
-    this.calendarCore,
-    {
-      container: document.getElementById("calendar"),
-      onCellClick: (day) => {
-        console.log("[calendar:click]", day);
-
-        // 👉 關鍵：回寫到 Vue
-        this.selectedDate = day.dateStr;
-
-        // 👉 沿用你原本的流程
-        this.loadDate();
-      }
-    }
-  );
-
-  this.calendarRenderer.render();
-},
-
-
-
-
-
-
-      //////20260130-ADD-END
-
-
-
-
-
-
-
-
-
-
-
 
       /* =================================================
        * 👉【工具】資料 JOIN

@@ -7,8 +7,7 @@
 // - 防止重複 mount / unmount race
 // - 共用 JS 只載一次
 // - page JS 動態載入
-// - page deps（JS / CSS）支援 ✅
-// - 20260130
+// - 2026-01-16（修正完成版）
 // ==================================================
 
 (() => {
@@ -64,7 +63,6 @@
   ];
 
   const loadedScripts = new Set();
-  const loadedStyles  = new Set();
 
   function loadScriptOnce(src) {          // 👉【工具】
     return new Promise((resolve, reject) => {
@@ -87,28 +85,6 @@
     });
   }
 
-  function loadStyleOnce(href) {           // 👉【工具】
-    return new Promise((resolve, reject) => {
-      if (loadedStyles.has(href)) {
-        return resolve();
-      }
-
-      const l = document.createElement("link");
-      l.rel = "stylesheet";
-      l.href = href;
-      l.onload = () => {
-        loadedStyles.add(href);
-        console.log("[router] style loaded:", href);
-        resolve();
-      };
-      l.onerror = () => {
-        console.error("[router] style load failed:", href);
-        reject();
-      };
-      document.head.appendChild(l);
-    });
-  }
-
   /* =================================================
    * page → js mapping
    * ================================================= */
@@ -119,22 +95,6 @@
     "reg_by_dep.html":    "reg_by_dep.js",
     "reg_list.html":      "reg_list.js",
     "reg_info.html":      "reg_info.js"
-  };
-
-  /* =================================================
-   * page → deps mapping（🆕）
-   * ================================================= */
-  const PAGE_DEPS_MAP = {
-    "reg_by_date.html": {
-      js: [
-        `${HIS_BASE}/common/Calendar/calendar-core.js`,
-        `${HIS_BASE}/common/Calendar/calendar-renderer.js`
-      ],
-      css: [
-        `${HIS_BASE}/common/Calendar/calendar.css`
-      ]
-    }
-    // 其他頁日後可擴充
   };
 
   /* =================================================
@@ -178,21 +138,6 @@
       // 1️⃣ 共用 JS（只載一次）
       for (const src of COMMON_SCRIPTS) {
         await loadScriptOnce(src);
-      }
-
-      // 1.5️⃣ Page Deps（🆕）
-      const deps = PAGE_DEPS_MAP[page];
-      if (deps) {
-        if (Array.isArray(deps.css)) {
-          for (const href of deps.css) {
-            await loadStyleOnce(href);
-          }
-        }
-        if (Array.isArray(deps.js)) {
-          for (const src of deps.js) {
-            await loadScriptOnce(src);
-          }
-        }
       }
 
       // 2️⃣ HTML
