@@ -6,12 +6,21 @@ public/
       ├─js  
       ├─data
       └─DB                  模擬資料庫
-         ├─ noon_type.json     午別資料
-         ├─ dep_map.json        科別對應
-         ├─departments.json     舊科別對應
-         ├─ doctors.json        醫師基本檔
-         ├─ schedule.json       醫師排程
-         ├─ patients.json       病患清單
-         └─ doctors2.json       醫師基本檔-擴充用
-
-更新日期-20260204
+      |  ├─ noon_type.json     午別資料
+      |  ├─ dep_map.json        科別對應
+      |  ├─departments.json     舊科別對應
+      |  ├─ doctors.json        醫師基本檔
+      |  ├─ schedule.json       醫師排程
+      |  ├─ patients.json       病患清單
+      |  └─ doctors2.json       醫師基本檔-擴充用
+      ├─Register  掛號作業
+      |   ├─css    掛號作業CSS
+      |   ├─js     掛號作業JS
+      |   └─pages  掛號作業View
+      |     ├─index.html 掛號作業主頁
+      |     ├─reg_form.html 掛號作業
+      |     ├─reg_by_date.html 依日期掛號
+      |     ├─reg_by_dep.html 依科別掛號
+      |     └─reg_by_doctor.html 依醫師掛號
+      |   
+更新日期-20260206
