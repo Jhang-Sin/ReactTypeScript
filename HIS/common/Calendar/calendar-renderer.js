@@ -1,6 +1,6 @@
 /* =====================================================
  * HIS Calendar Renderer
- * 負責畫面結構（Table / Cell / Click）-20260203
+ * 負責畫面結構（Table / Cell / Click）-20260203..
  * ===================================================== */
 
 HIS.Calendar.Renderer = class {
@@ -115,7 +115,7 @@ HIS.Calendar.Renderer = class {
           this._clearActive(table);
           dayDiv.classList.add("active");
            td.classList.add("is-active");/////20260203-Add
-          this.onCellClick(day);
+          this.onCellClick(day); //畫面點擊後觸發接這
         };
       }
 

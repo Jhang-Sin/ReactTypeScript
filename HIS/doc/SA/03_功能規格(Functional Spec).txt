@@ -16,11 +16,11 @@ public/
       ├─Register     掛號作業
       │   ├─css     掛號作業CSS
       │   ├─js     掛號作業JS
-      │   └─pages     掛號作業View
-      │     ├─index.html     掛號作業主頁
-      │     ├─reg_form.html     掛號作業
-      │     ├─reg_by_date.html     依日期掛號
-      │     ├─reg_by_dep.html     依科別掛號
-      │     └─reg_by_doctor.html     依醫師掛號
-      │   
+      │   ├─pages     掛號作業View
+      │   │  │
+      │   │  ├─reg_form.html     掛號作業
+      │   │  ├─reg_by_date.html     依日期掛號
+      │   │  ├─reg_by_dep.html     依科別掛號
+      │   │  └─reg_by_doctor.html     依醫師掛號
+      │   ├─index.html     掛號作業主頁
 更新日期-20260206

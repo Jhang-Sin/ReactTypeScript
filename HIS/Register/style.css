@@ -11,14 +11,19 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-.container {
+.container {  /*主框架內容CSS*/
   display: flex;
   height: calc(100vh - 60px);
+  width: 100%;  /*20260211-ADD*/
+
 }
 nav {
   width: 200px;
   background: #e3e8ef;
   padding: 15px;
+  flex-shrink: 0;   /* 🔥 這行是重點 20260211-ADD*/
+
+
 }
 nav ul {
   list-style: none;
@@ -33,10 +38,14 @@ nav a {
   font-weight: bold;
 }
 main {
-  flex-grow: 1;
+  flex: 1;          /* 取代 flex-grow 20260211-*/
+  min-width: 0;     /* 🔥🔥🔥 關鍵核心 20260211-*/
   padding: 20px;
   background: white;
   overflow-y: auto;
+  overflow-x: auto; /* 內容太寬時自己出水平捲軸 20260211-*/
+
+
 }
 button {
   background-color: #0078d7;
