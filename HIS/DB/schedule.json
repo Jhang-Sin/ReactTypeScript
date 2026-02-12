@@ -78,5 +78,13 @@
     "date": "2026-11-21",
     "noon": "02",
     "status": 1
+  },
+  {
+    "schedule_NO": 10011,
+    "doctorId": "D010",
+    "depCode": "TEST99",
+    "date": "2026-11-21",
+    "noon": "02",
+    "status": 1
   }
 ]
