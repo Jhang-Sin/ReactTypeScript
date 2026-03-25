@@ -3,7 +3,7 @@
   console.log("[reg_form] init");
 
   async function loadPatient(mrNo) {
-    const data = await HIS.util.loadJSON("DB/patients.json");
+    const data = await HIS.util.loadJSON("DB/Patient/patients.json");//20260213-搬移資料表路徑
     if (!data) return;
 
     const patient = data.find(p => p.id === mrNo);

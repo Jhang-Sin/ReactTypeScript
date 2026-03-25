@@ -1,0 +1,16 @@
+[
+  {
+    "tableName": "Patient",
+    "displayName": "病歷主檔",
+    "path": "DB/Patient/Patient.json",
+    "schema": "DB/Patient/Patient.schema.json",
+    "status": 1
+  },
+  {
+    "tableName": "extPatient",
+    "displayName": "延伸病歷檔",
+    "path": "DB/extPatient/extPatient.json",
+    "schema": "DB/extPatient/extPatient.schema.json",
+    "status": 1
+  }
+]

@@ -1,0 +1,79 @@
+📄 HIS 新功能開發快速開場模板（TXT）
+HIS 新功能開發快速開場模板（適用醫令/護理等模組）
+
+【一、開場方式（複製貼上用）】
+- 我目前在 HIS 專案中開發「新模組（例如：醫令作業 / 護理作業）」。
+- 此模組需沿用既有共用能力（資料讀取、工具函式），但與掛號/管理模組解耦。
+- 請依下列資訊協助我規劃與實作。
+
+
+【二、必要提供資訊（最小上下文）】
+- 專案結構（精簡）
+  HIS/
+   ├─ common/js（utilities.js, modal.js）
+   ├─ DB/*.json
+   └─ <NewModule>/
+
+- 共用依賴
+  - HIS.util.loadJSON
+  - modal.js（若有用）
+
+- 使用資料
+  - JSON 檔名
+  - 主要欄位（簡述即可）
+
+- 頁面入口
+  - 例如：order_index.html
+
+
+【三、模組設計原則】
+- 與 Register / Admin 完全解耦
+- 不直接操作 DB（統一透過 util 或未來 service）
+- 採用 module.init() 架構
+- 支援兩種模式
+  - Standalone（直接開）
+  - Loader（未來整合）
+
+
+【四、建議檔案結構】
+HIS/<NewModule>/
+ ├─ pages/
+ │   ├─ xxx_index.html
+ │   └─ xxx_xxx.html
+ └─ js/
+     ├─ xxx_main.js
+     ├─ xxx_loader.js（可選）
+     └─ xxx_service.js（未來）
+
+
+【五、資料流設計（重要）】
+UI
+ ↓
+module.js
+ ↓
+service / util
+ ↓
+DB(JSON)
+
+※ UI 不直接呼叫 loadJSON（避免分散）
+
+
+【六、常見問題（避免踩雷）】
+- DOM 元素不存在 → 必須判斷 null
+- 載入時機問題（DOMContentLoaded vs Loader）
+- JS 全域污染（建議使用 IIFE）
+- script 重複載入
+- HTML 結構與 JS 綁定不一致
+
+
+【七、建議提問方式（讓 AI 快速理解）】
+- 請幫我設計「醫令模組」基本架構（HTML + JS）
+- 請幫我規劃資料流與 service 層
+- 請幫我與 utilities.js 整合
+- 請避免影響既有模組
+
+
+【八、開發目標】
+- 快速建立「可運作」的獨立模組
+- 保持未來可整合（Loader / API / services）
+- 架構清晰、可擴充

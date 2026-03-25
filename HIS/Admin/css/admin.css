@@ -1,0 +1,51 @@
+/* admin.css */
+
+.maintain-actions {
+  margin-bottom: 12px;
+}
+
+.check-ok {
+  color: rgb(157, 243, 157);
+}
+
+.check-error {
+  color: red;
+}
+
+
+/*20260216add*/
+
+.admin-layout {
+    display: flex;
+    height: 100vh;
+}
+
+.admin-menu {
+    width: 220px;
+    background: #cccaca;
+    color: rgb(0, 0, 0);
+    padding: 15px;
+}
+
+.admin-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.admin-menu li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.admin-menu li:hover {
+    background: #b0ebdc;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+
+/*20260216add-end*/

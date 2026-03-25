@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>DB Viewer</title>
+
+ <!-- 共用樣式（你已規劃好的結構） -->
+  <link rel="stylesheet" href="../../common/css/base.css">
+  <link rel="stylesheet" href="../../common/css/layout.css">
+  <link rel="stylesheet" href="../../common/css/components.css">
+  <link rel="stylesheet" href="../../common/css/util.css">
+  <!-- 管理頁專用樣式 -->
+<link rel="stylesheet" href="../css/admin.css">
+
+<!-- 共用 -->
+<script src="../../common/js/utilities.js"></script>
+
+<!-- Service -->
+<script src="../js/admin_dataService.js"></script>
+
+<!-- UI -->
+<script src="../js/admin_dbviewer.js" defer></script>
+
+</head>
+
+<body>
+
+<h2>🗂️資料檢視</h2>
+
+<select id="dbSelect" class="admin-section"></select>
+<button id="btnLoadDB">讀取</button>
+
+<h3 id="dbViewTitle"></h3>
+<div id="dbViewResult"></div>
+
+</body>
+ <footer class="admin-footer">
+    <small>HIS Admin Maintain © 2025</small>
+  </footer>
+</html>

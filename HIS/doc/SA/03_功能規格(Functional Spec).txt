@@ -1,5 +1,8 @@
 public/
 └─ HIS/
+   ├─Api API
+   │  └─ admin
+   │      └─ adminApi.js   管理作業API
    └─common		共用元件區
       ├─Calendar	行事曆元件
       ├─css
@@ -23,4 +26,12 @@ public/
       │   │  ├─reg_by_dep.html     依科別掛號
       │   │  └─reg_by_doctor.html     依醫師掛號
       │   ├─index.html     掛號作業主頁
-更新日期-20260206
+      └─Admin  管理作業
+         ├─css 管理作業CSS
+         ├─js 管理作業js
+         └─pages
+           ├─admin_index.html 管理作業首頁
+           ├─admin_dbcheck.html 管理作業-資料檢核
+           ├─admin_dbviewer.html 管理作業-資料檢視
+           └─admin_maintain.html舊版管理作業-[停用/參考]
+更新日期-20260325

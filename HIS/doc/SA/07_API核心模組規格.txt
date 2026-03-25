@@ -1,2 +1,23 @@
+Service 分層
 
-更新日期-20260204
+API 作業流程:
+UI（頁面）
+   ↓
+UI JS（事件觸發）
+   ↓
+Service（業務邏輯）
+   ↓
+回傳 ResultData
+   ↓
+UI Render（顯示）
+
+
+理想架構:
+
+API/
+├─ admin/
+├─ register/
+├─ order/
+
+ 
+更新日期-20260325

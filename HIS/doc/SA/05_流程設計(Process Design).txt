@@ -1,2 +1,12 @@
+2026-03-25
+建立Service 層
+
+名稱:
+ admin_dataService.js
+ 負責：
+ -DB 檢核呼叫
+ -JSON 資料讀取
+ -統一回傳格式（ResultData）
+
 
 更新日期-20260204

@@ -4,5 +4,6 @@
   { "id": "F003", "name": "排班系統", "page": "schedule.html", "roles": ["admin"], "status": 1 },
   { "id": "F004", "name": "病歷查詢", "page": "record.html", "roles": ["doctor", "nurse"], "status": 1 },
   { "id": "F005", "name": "停用測試", "page": "test.html", "roles": ["doctor"], "status": 0 },
-  { "id": "F006", "name": "維護管理", "page": "/ReactTypeScript/HIS/admin/pages/admin_maintain.html", "roles": ["admin"], "status": 1 }
+  { "id": "F006", "name": "維護管理[停/廢-參考用]", "page": "/ReactTypeScript/HIS/Admin/pages/admin_maintain.html", "roles": ["admin"], "status": 0 },
+  { "id": "F007", "name": "管理首頁", "page": "/ReactTypeScript/HIS/Admin/pages/admin_index.html", "roles": ["admin"], "status": 1 }
 ]
