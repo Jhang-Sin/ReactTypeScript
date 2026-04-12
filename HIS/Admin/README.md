@@ -53,3 +53,9 @@ admin_dbviewer.js
   - 載入順序問題
   - DOM timing 問題
 - 👉 目前改採「靜態載入」提升穩定性
+
+API備註:
+✔ async checkDB → 是 method（API）
+✔ return {...} → 統一回傳格式（ResultData）
+✔ errorCode → 錯誤系統
+✔ window.xxx → 掛全域（讓別人用）

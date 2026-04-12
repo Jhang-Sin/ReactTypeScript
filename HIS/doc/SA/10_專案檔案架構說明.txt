@@ -1,66 +1,69 @@
 專案整體架構調整總覽
+VanillaJS+React + Vue v3.5.25 + TypeScript
+
 public/
 └─ HIS/
-   ├─ API ← API元件
-   │   └─Admin ← 管理作業API
-   │     └─adminApi.js 
-   ├─ common/
-   │  ├─Calendar/			← 自製行事曆元件(依日期掛號使用)
+   ├─ API/					←API區
+   Admin
+   │ └─adminApi.js			← 管理作業API
+   ├─ common/				←共用元件區
+   │  ├─Calendar/			← 自製行事曆元件
    │  │  └─calendar-core.js 	← 行事曆元件核心
    │  │  └─calendar-adapter.js 	← 行事曆元件預留接口
    │  │  └─calendar-core.js 	←負責行事曆畫面結構（Table / Cell / Click）
    │  │  └─calendar.css 		← 行事曆元件CSS
    │  ├─js/
-   │  │  ├─ utilities.js          	← 共用工具（含 HIS.util.loadJSON）
-   │  │  ├─ modal.js              	← 共用訊息視窗
-   │  │  ├─ register-system.js    	← 掛號核心流程 API
-   │  │  ├─ condition-config.js   	← 條件設定
-   │  │  ├─ condition-engine.js   	← 條件判斷引擎
-   │  │  └─ schedule-engine.js    	← 排班處理邏輯
+   │  │  ├─ utilities.js       	← 共用工具（含 HIS.util.loadJSON）
+   │  │  ├─ modal.js           	← 共用訊息視窗
+   │  │  ├─ register-system.js 	← 掛號核心流程 API
+   │  │  ├─ condition-config.js	← 條件設定
+   │  │  ├─ condition-engine.js	← 條件判斷引擎
+   │  │  ├─ schedule-engine.js 	← 排班處理邏輯
+   │  │  └─ vue.global.prod.js  ← vue v3.5.25   
    │  └─ css/
    │     ├─ base.css
    │     ├─ layout.css
    │     ├─ components.css
    │     └─ util.css
    ├─DATA
-   │ └─ FunctionButtonList.txt 		← 登入頁面權限/按鈕對應檔
-   ├─ DB/                         	← 🔑 模擬資料庫（單一來源）
-   │  ├─ doctors.json		← 醫師資料基本檔
-   │  ├─ doctors2.json            	⭕（可選）醫師擴充資料檔
-   │  ├─ dep_map.json             	← 診別代碼 → 中文
-   │  ├─ departments.json         	← 診別定義（檢核用）
-   │  ├─ depcode.json             	← 舊系統代碼表（仍保留）
-   │  ├─ noon_type.json		← 午別資料對應檔
-   │  ├─ patients.json		← 模擬病患基本資料
-   │  └─ schedule.json            	← 🔥 核心排班資料表
+   │ └─ FunctionButtonList.txt	← 登入頁面權限/按鈕對應檔
+   ├─ DB/						← 🔑 模擬資料庫（單一來源）
+   │  ├─ doctors.json			← 醫師資料基本檔
+   │  ├─ doctors2.json			⭕（可選）醫師擴充資料檔
+   │  ├─ dep_map.json			← 診別代碼 → 中文
+   │  ├─ departments.json		← 診別定義（檢核用）
+   │  ├─ depcode.json			← 舊系統代碼表（仍保留）
+   │  ├─ noon_type.json			← 午別資料對應檔
+   │  ├─ patients.json			← 模擬病患基本資料
+   │  └─ schedule.json			← 🔥 核心排班資料表
    │
-   ├─ Register/                   	← 掛號作業
+   ├─ Register/					← 掛號作業
    │  ├─ pages/
-   │  │  ├─ reg_form.html         	← 基本掛號頁面
-   │  │  ├─ reg_by_doctor.html    	← 依醫師掛號
-   │  │  ├─ reg_by_date.html      	← 依日期掛號
-   │  │  └─ reg_by_dep.html       	← 依科別掛號
+   │  │  ├─ reg_form.html		← 基本掛號頁面
+   │  │  ├─ reg_by_doctor.html	← 依醫師掛號
+   │  │  ├─ reg_by_date.html	← 依日期掛號
+   │  │  └─ reg_by_dep.html		← 依科別掛號
    │  └─ js/
-   │     ├─ router.js             	← 控制掛號作業JS載入
-   │     ├─ reg_form.js           	← 基本掛號頁面JS
-   │     ├─ reg_by_doctor.js      	← 依醫師掛號JS
-   │     ├─ reg_by_date.js        	← 依日期掛號JS
-   │     └─ reg_by_dep.js         	← 依科別掛號JS
+   │     ├─ router.js			← 控制掛號作業JS載入
+   │     ├─ reg_form.js			← 基本掛號頁面JS
+   │     ├─ reg_by_doctor.js	← 依醫師掛號JS
+   │     ├─ reg_by_date.js		← 依日期掛號JS
+   │     └─ reg_by_dep.js		← 依科別掛號JS
    │
-   ├─ admin/                      	← 管理者-管理作業
+   ├─ admin/					← 管理者-管理作業
    │      ├─ pages/
-   │      │  ├─ admin_maintain.html   	← 管理者-維護作業-舊版
-   │      │  ├─ admin_index.html      	← 管理者-維護作業-新版
-   │      │  ├─ admin_dbcheck.html    	← 資料表檢核
-   │      │  ├─ admin_dbviewer.html   	← Data + Schema 展示
+   │      │  ├─ admin_maintain.html	← 管理者-維護作業-舊版[停用/參考]
+   │      │  ├─ admin_index.html	← 管理者-維護作業-新版
+   │      │  ├─ admin_dbcheck.html	← 資料表檢核
+   │      │  ├─ admin_dbviewer.html	← Data + Schema 展示
    │      └─ js/
-   │         ├─ admin_config.js   	← 設定admin_頁面 js載入
-   │         ├─ maintain.js   	← 管理者舊版dmin_maintain.html頁面Js
-   │         ├─ db-checker.js  	← 資料檢核邏輯js
+   │         ├─ admin_config.js		← 設定admin_頁面 js載入
+   │         ├─ maintain.js			← 管理者舊版dmin_maintain.html頁面Js[停用/參考]
+   │         ├─ db-checker.js		← 資料檢核邏輯js
    │         ├─ admin_dbviewer.js 	← 資料檔案檢視js
    │         └─ admin_loader.js 	← 處理動態載入新版admin作業js（依序）
    │         
    └─ html/ 
-		└login.html		←專案主要入口/ HIS 登入主頁	
+		└login.html				←專案主要入口/ HIS 登入主頁	
 
-      更新日期-20260325
+      更新日期-20260401

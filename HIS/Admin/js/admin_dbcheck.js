@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btn = document.getElementById("btnCheckDB");
   const resultDiv = document.getElementById("dbCheckResult");
-
+  //綁定按鈕事件//  
   btn.addEventListener("click", async () => {
 
     resultDiv.textContent = "檢核中...";
@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     render(result);
 
   });
+
 
   function render(result) {
 

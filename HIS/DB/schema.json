@@ -1,0 +1,50 @@
+{
+  "schedule": {
+    "description": "門診排程資料表",
+    "primaryKey": "schedule_no",
+
+    "columns": {
+      "schedule_no": {
+        "label": "流水碼",
+        "description": "資料唯一識別",
+        "type": "PK"
+      },
+
+      "noon": {
+        "label": "午別代碼",
+        "description": "門診時段",
+        "type": "FK",
+        "relation": "noon_type"
+      },
+
+      "status": {
+        "label": "狀態",
+        "description": "資料有效值",
+        "type": "ENUM",
+        "enum": {
+          "1": "有效",
+          "0": "無效"
+        }
+      }
+    }
+  },
+
+  "noon_type": {
+    "description": "午別代碼表",
+
+    "columns": {
+      "noon": {
+        "label": "午別代碼",
+        "description": "系統識別用"
+      },
+      "time": {
+        "label": "開診時段",
+        "description": "實際開診時間區間"
+      },
+      "value": {
+        "label": "顯示名稱",
+        "description": "前端畫面顯示文字"
+      }
+    }
+  }
+}

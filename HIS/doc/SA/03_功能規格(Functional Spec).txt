@@ -1,37 +1,52 @@
 public/
 └─ HIS/
-   ├─Api API
+   ├─Api API   API區
    │  └─ admin
    │      └─ adminApi.js   管理作業API
-   └─common		共用元件區
-      ├─Calendar	行事曆元件
-      ├─css
-      ├─js  
-      ├─data
-      └─DB                  模擬資料庫
-      │  ├─ noon_type.json     午別資料
-      │  ├─ dep_map.json        科別對應
-      │  ├─departments.json     舊科別對應
-      │  ├─ doctors.json        醫師基本檔
-      │  ├─ schedule.json       醫師排程
-      │  ├─ patients.json       病患清單
-      │  └─ doctors2.json       醫師基本檔-擴充用
-      ├─Register     掛號作業
-      │   ├─css     掛號作業CSS
-      │   ├─js     掛號作業JS
-      │   ├─pages     掛號作業View
-      │   │  │
-      │   │  ├─reg_form.html     掛號作業
-      │   │  ├─reg_by_date.html     依日期掛號
-      │   │  ├─reg_by_dep.html     依科別掛號
-      │   │  └─reg_by_doctor.html     依醫師掛號
-      │   ├─index.html     掛號作業主頁
-      └─Admin  管理作業
-         ├─css 管理作業CSS
-         ├─js 管理作業js
-         └─pages
-           ├─admin_index.html 管理作業首頁
-           ├─admin_dbcheck.html 管理作業-資料檢核
-           ├─admin_dbviewer.html 管理作業-資料檢視
-           └─admin_maintain.html舊版管理作業-[停用/參考]
-更新日期-20260325
+   ├─common		共用元件區
+   │      ├─Calendar	行事曆元件
+   │      │   ├─ calendar-adapter.js
+   │      │   ├─ calendar-core.js
+   │      │   ├─ calendar-renderer.js
+   │      │   └─ calendar.css   
+   │      ├─css
+   │      ├─js  
+   │      └─data
+   ├─       DB  模擬資料庫
+   │      │  ├─ noon_type.json   午別資料
+   │      │  ├─ dep_map.json     科別對應
+   │      │  ├─ departments.json  舊科別對應
+   │      │  ├─ doctors.json     醫師基本檔
+   │      │  ├─ schedule.json    醫師排程
+   │      │  ├─ patients.json    病患清單
+   │      │  └─ doctors2.json    醫師基本檔-擴充用
+   ├─Register     掛號作業
+   │      ├─css   掛號作業CSS
+   │      ├─js    掛號作業JS
+   │      │  ├─ reg_base.js
+   │      │  ├─ reg_by_date.js   依日期掛號JS
+   │      │  ├─ reg_by_dep.js    依科別掛號JS
+   │      │  ├─ reg_by_doctor.js 依醫師掛號JS
+   │      │  ├─ reg_form.js
+   │      │  ├─ reg_info.js
+   │      │  ├─ reg_list.js  
+   │      │  ├─ RegIndex.js
+   │      │  └─ router.js  掛號作業(動態載入設定)JS
+   │      │      
+   │      ├─pages    掛號作業View
+   │      │  │
+   │      │  ├─reg_form.html     掛號作業
+   │      │  ├─reg_by_date.html  依日期掛號
+   │      │  ├─reg_by_dep.html   依科別掛號
+   │      │  └─reg_by_doctor.html   依醫師掛號
+   │      └─index.html  掛號作業主頁
+   ├─Admin  管理作業
+   │      ├─css   管理作業CSS
+   │      ├─js    管理作業js
+   │      └─pages
+   │        ├─admin_index.htm       管理作業首頁
+   │        ├─admin_dbcheck.html    管理作業-資料檢核
+   │        ├─admin_dbviewer.html   管理作業-資料檢視
+   │        └─admin_maintain.html   舊版管理作業-[停用/參考]
+
+更新日期-20260401

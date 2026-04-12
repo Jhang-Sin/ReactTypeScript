@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Schema欄位說明</title>
+
+  <!-- 共用樣式 -->
+  <link rel="stylesheet" href="../../common/css/base.css">
+  <link rel="stylesheet" href="../../common/css/layout.css">
+  <link rel="stylesheet" href="../../common/css/components.css">
+  <link rel="stylesheet" href="../../common/css/util.css">
+
+  <!-- admin -->
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+<div class="admin-container">
+
+  <h2>📘 資料字典（Schema 說明）</h2>
+<button id="btnBackIndex" onclick=" window.location.href = 'admin_index.html'">回管理首頁</button>
+  <!-- 表選擇 -->
+  <div class="mb-16">
+    <label>選擇資料表：</label>
+    <select id="tableSelect"></select>
+  </div>
+
+  <!-- 表說明 -->
+  <div id="tableInfo" class="mb-16"></div>
+
+  <!-- 欄位說明 -->
+  <div id="schemaTable"></div>
+
+</div>
+
+<!-- 共用 -->
+<script src="../../common/js/utilities.js"></script>
+
+<!-- 新增 -->
+<script src="../js/schema-config.js"></script>
+<script src="../js/schema-info.js"></script>
+
+</body>
+</html>
