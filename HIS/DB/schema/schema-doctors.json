@@ -1,0 +1,31 @@
+{
+  "table": "doctors",
+  "columns": [
+    {
+      "name": "doctorId",
+      "label":"醫師代碼",
+      "type": "number/int",
+      "desc": "醫師代碼"
+    },
+    { "name": "name",
+    "label":"醫師姓名",
+      "type": "String",
+      "desc": "醫師姓名"
+    },
+    {
+        "name": "dept",
+         "label":"醫師專科",
+        "type": "int",
+        "desc": ""
+    },
+    {
+        "name": "depCode",
+        "label":"專科代碼",
+        "type": "int",
+        "description":"對應depcode.json",
+        "desc": ""
+
+    }
+  
+  ]
+}

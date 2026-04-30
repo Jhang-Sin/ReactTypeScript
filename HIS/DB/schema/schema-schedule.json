@@ -1,0 +1,46 @@
+{
+  "table": "schedule",
+  "columns": [
+    {
+      "name": "schedule_NO",
+      "label":"門診序號",
+      "type": "number",
+      "description":"PK",
+      "desc": ""
+    },
+    {
+      "name": "doctorId",
+      "label":"醫師代碼",
+      "type": "number",
+      "description":"",
+      "desc": ""
+    },
+    {
+      "name": "depCode",
+      "label":"科別代碼",
+      "type": "number",
+      "description": "",
+      "ref": "dep_map"
+    },
+    {
+      "name": "date",
+      "label":"開診日期",
+      "type": "Date",
+      "description": "YYYY-MM-DD"     
+    },
+    {
+      "name": "noon",
+      "label":"午別代碼",
+      "type": "int",
+      "desc": "",
+      "ref": "noon_type"
+    },
+    {
+      "name": "status",
+      "label":"資料狀態",
+      "type": "ENUM",           
+      "description":"[1:有效 0:無效]" 
+
+    }
+  ]
+}

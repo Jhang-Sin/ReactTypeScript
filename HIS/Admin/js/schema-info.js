@@ -1,108 +1,168 @@
-/*
-- Schema爛為對照檔（Data Dictionary）-框
-- table欄位設定
--20260406
-*/
+/**
+ * 🚧【最外層保護殼】IIFE（避免全域污染）-20260424
+ */
 (function () {
 
-  const tableSelect = document.getElementById("tableSelect");
-  const tableInfo = document.getElementById("tableInfo");
-  const schemaTable = document.getElementById("schemaTable");
+  const { createApp } = Vue;
+  const BASE = getBasePath();///抓基礎路徑
 
-  init();
 
-  function init() {
-    const tables = Object.keys(window.SchemaConfig);
+  /**
+   * 🚩【統一出口】
+   */
+  window.__vue_app__ = createApp({
 
-    // 填入下拉
-    tables.forEach(t => {
-      const opt = document.createElement("option");
-      opt.value = t;
-      opt.textContent = t;
-      tableSelect.appendChild(opt);
-    });
+    data() {
+      return {
+        tableList: [],       // 安全預設
+        selectedTable: "",
+        schema: null,
+        errorMsg: ""
+      };
+    },
 
-    // 預設第一張
-    if (tables.length > 0) {
-      render(tables[0]);
+    computed: {
+
+      /**
+       * 👉【防炸】欄位一定是 Array
+       */
+      safeColumns() {
+        return Array.isArray(this.schema?.columns)
+          ? this.schema.columns
+          : [];
+      }
+
+    },
+
+    async mounted() {
+      await this.init();
+    },
+
+    methods: {
+
+      /**
+       * 1️⃣【流程】初始化（init）
+       */
+      async init() {
+        await this.loadSchemaList();
+      },
+
+      /**
+       * 2️⃣【流程】取得資料（Schema 清單）
+       */
+      async loadSchemaList() {
+
+        this.errorMsg = "";
+        this.tableList = [];
+
+        try {
+
+          const raw = await HIS.util.loadJSON("../HIS/DB/schema/schema-list.json");
+          ///判定錯誤原因 
+          if (raw === undefined) 
+            {
+              console.error("❌ loadJSON 失敗:", url);
+              this.errorMsg = "載入失敗（可能是路徑或 JSON 格式錯誤）";
+              return;
+            }
+
+          // 🔥 相容不同回傳格式
+          const data = raw?.data ?? raw;
+
+          if (!Array.isArray(data)) {
+            throw new Error("schema-list 格式錯誤");
+          }
+
+          /**
+           * 3️⃣【流程】資料綁定完成
+           */
+          this.tableList = data;
+
+          if (this.tableList.length > 0) {
+            this.selectedTable = this.tableList[0].name;
+            await this.loadSchema();
+          }
+
+        } catch (err) {
+          this.errorMsg = "Schema 清單載入失敗";
+          console.error(err);
+        }
+      },
+
+      /**
+       * 👉【事件】選單變更
+       */
+      async onTableChange() {
+        await this.loadSchema();
+      },
+
+      /**
+       * 2️⃣【流程】取得資料（單一 Schema）
+       */
+      async loadSchema() {
+
+        this.errorMsg = "";
+        this.schema = null;
+
+        if (!this.selectedTable || this.selectedTable=="Default") return;
+      const url = `/DB/schema/${this.selectedTable}.json`;//讓utilities.js自己補足位置20260426-3修
+        try {
+
+          const raw = await HIS.util.loadJSON(url);
+          if(raw== undefined){
+         console.log("1-沒有找到對應檔案");
+         console.error("2-❌ loadJSON 失敗:URL=>", url);
+         return;//跳出   
+          }
+          // 🔥 相容不同回傳格式
+          const data = raw?.data ?? raw;
+
+          if (!data || typeof data !== "object") {
+            throw new Error("schema 格式錯誤");
+          }
+
+          //除錯用///
+          console.log('Debug---START');
+          console.log("SCHEMA RAW:", data);
+          console.log("COLUMNS:", data?.columns);
+          console.log('Debug---END');
+          /**
+           * 3️⃣【流程】資料綁定完成
+           */
+          this.schema = data;
+
+        } catch (err) {
+          this.errorMsg = `找不到 ${this.selectedTable} 對應的 Schema 資料`;
+          console.error(err);
+        }
+      }
+
     }
 
-    tableSelect.addEventListener("change", () => {
-      render(tableSelect.value);
-    });
-  }
-
-  function render(tableName) {
-    const schema = window.SchemaConfig[tableName];
-
-    if (!schema) return;
-
-    renderTableInfo(tableName, schema);
-    renderColumns(schema.columns);
-  }
-
-  function renderTableInfo(name, schema) {
-    tableInfo.innerHTML = `
-      <div class="card">
-        <h3>📄 ${name}</h3>
-        <p>${schema.description || ""}</p>
-        ${schema.primaryKey ? `<p><b>Primary Key：</b>${schema.primaryKey}</p>` : ""}
-      </div>
-    `;
-  }
-
-  function renderColumns(columns) {
-    let html = `
-      <table class="table">
-        <thead>
-          <tr>
-            <th>欄位</th>
-            <th>名稱</th>
-            <th>說明</th>
-            <th>型別</th>
-            <th>Primary</th>
-            <th>備註</th>
-           
-          </tr>
-        </thead>
-        <tbody>
-    `;
-
-    for (const key in columns) {
-      const col = columns[key];
-
-      html += `
-        <tr>
-          <td>${key}</td>
-          <td>${col.label || ""}</td>
-          <td>${col.description || ""}</td>
-          <td>${col.type || ""}</td>
-          <td>${col.Key || ""}</td>
-          <td>${renderExtra(col)}</td>
-        </tr>
-      `;
-    }
-
-    html += "</tbody></table>";
-
-    schemaTable.innerHTML = html;
-  }
-
-  function renderExtra(col) {
-
-    // ENUM
-    if (col.enum) {
-      return Object.entries(col.enum)
-        .map(([k, v]) => `${k} = ${v}`)
-        .join("<br>");
-    }
-
-    // FK
-    if (col.relation) {
-      return `→ ${col.relation}`;
-    }
-
-    return "";
-  }
+  }).mount("#app");
 
 })();
+
+/*
+- 👉【工具】統一取得 HIS 基礎路徑
+*/
+function getBasePath() 
+{
+  console.log("getBasePath...");
+  
+  // ✅ utilities 已經算好的 ROOT
+  if (window.HIS?.util?.ROOT) 
+    {
+      return HIS.util.ROOT;
+    }
+
+  // 🔄 fallback（極少用到）
+  const path = window.location.pathname;
+  const idx = path.indexOf("/HIS");
+
+  if (idx !== -1) {
+    return path.substring(0, idx + 4);
+  }
+
+  return "";
+}

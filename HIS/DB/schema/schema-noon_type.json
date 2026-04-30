@@ -1,0 +1,25 @@
+{
+  "table": "noon_type",
+  "columns": [
+    {
+      "name": "key",
+      "label":"午別代碼",
+      "description":"PK",
+      "type": "int",
+      "desc": ""      
+    },
+    {
+      "name": "time",
+      "label":"開診時段",
+      "type": "int",
+      "desc": ""
+    },
+    {
+      "name": "value",
+      "label":"顯示名稱",
+      "type": "int",
+      "desc": ""
+    }
+    
+  ]
+}

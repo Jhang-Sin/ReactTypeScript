@@ -1,0 +1,36 @@
+{
+  "table": "schedule",
+  "columns": [
+    {
+      "name": "schedule_NO",
+      "type": "number",
+      "desc": "流水號（Primary Key）"
+    },
+    {
+      "name": "doctorId",
+      "type": "string",
+      "desc": "醫師代碼"
+    },
+    {
+      "name": "depCode",
+      "type": "string",
+      "desc": "科別代碼"
+    },
+    {
+      "name": "date",
+      "type": "string",
+      "desc": "看診日期（YYYY-MM-DD）"
+    },
+    {
+      "name": "noon",
+      "type": "string",
+      "desc": "午別",
+      "ref": "noon_type"
+    },
+    {
+      "name": "status",
+      "type": "number",
+      "desc": "狀態（1=有效 / 0=無效）"
+    }
+  ]
+}

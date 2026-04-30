@@ -1,0 +1,25 @@
+{
+  "table": "schema-doctors2",
+  "columns": [
+    {
+      "name": "doctorId",
+      "label":"醫師代碼",
+      "type": "int",
+      "desc": "醫師代碼"
+    },
+    { "name": "name",
+    "label":"醫師姓名",
+      "type": "String"     
+    },
+    {
+        "name": "dept",
+        "label":"科別代碼",
+        "type": "int",
+        "desc": "醫師次專科",
+        "description":"對應depcode.json"
+       
+    }
+    
+  
+  ]
+}

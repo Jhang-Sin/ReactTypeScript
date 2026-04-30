@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <title>Schema欄位說明</title>
+  <title>Schema 欄位說明</title>
 
   <!-- 共用樣式 -->
   <link rel="stylesheet" href="../../common/css/base.css">
@@ -10,35 +10,97 @@
   <link rel="stylesheet" href="../../common/css/components.css">
   <link rel="stylesheet" href="../../common/css/util.css">
 
-  <!-- admin -->
+  <!-- 管理頁樣式 -->
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 
 <body>
 
-<div class="admin-container">
+<div id="app" ><!--取消class="container"--->
 
-  <h2>📘 資料字典（Schema 說明）</h2>
-<button id="btnBackIndex" onclick=" window.location.href = 'admin_index.html'">回管理首頁</button>
-  <!-- 表選擇 -->
+  <h3>📘 Schema 欄位說明</h1>
+</br> 
+ <!-- 🔙 回首頁 -->
+  <div class="mb-2">
+    <button onclick="location.href='admin_index.html'" class="btn">
+      ← 回管理首頁
+    </button>
+    </br><!----換行-->
+
+    <!-- 📂 資料表選單 -->
   <div class="mb-16">
-    <label>選擇資料表：</label>
-    <select id="tableSelect"></select>
+    <label>資料表清單：</label></br>
+
+    <select v-model="selectedTable" @change="onTableChange">
+      <option v-for="t in tableList" :key="t.name" :value="t.name">
+        {{ t.label }} ({{ t.name }})
+      </option>
+    </select>
+  </div>
   </div>
 
-  <!-- 表說明 -->
-  <div id="tableInfo" class="mb-16"></div>
+  
 
-  <!-- 欄位說明 -->
-  <div id="schemaTable"></div>
+  <!-- ⚠️ 錯誤提示 -->
+  <div v-if="errorMsg" class="text-danger mb-2">
+    ⚠️ {{ errorMsg }}
+  </div>
+
+  <!-- 📄 Schema 顯示 -->
+  <div v-if="schema">
+
+    <div class="card mb-2">
+      <h3>{{ schema.name }}</h3>
+      <p>{{ schema.description }}</p>
+
+      <p v-if="schema.primaryKey">
+        <b>Primary Key：</b>{{ schema.primaryKey }}
+      </p>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>欄位</th>
+          <th>名稱</th>
+          <th>型別</th>
+          <th>說明</th>
+          <th>備註</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr v-for="col in safeColumns" :key="col.name">
+          <td>{{ col.name }}</td>
+          <td>{{ col.label }}</td>
+          <td>{{ col.type }}</td>
+          <td>{{ col.description }}</td>
+          <td>
+            <div v-if="Array.isArray(col.enum)">
+              <div v-for="e in col.enum" :key="e.value">
+                {{ e.value }} = {{ e.text }}
+              </div>
+            </div>
+
+            <div v-else-if="col.relation">
+              → {{ col.relation }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
 
 </div>
 
-<!-- 共用 -->
+<!-- Vue -->
+<script src="../../common/js/vue.global.prod.js"></script>
+
+<!-- utilities -->
 <script src="../../common/js/utilities.js"></script>
 
-<!-- 新增 -->
-<script src="../js/schema-config.js"></script>
+<!-- 本頁 -->
 <script src="../js/schema-info.js"></script>
 
 </body>
