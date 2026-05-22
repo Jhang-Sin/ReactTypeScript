@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <script src="../HIS/common/js/vue.global.prod.js"></script><!--原使用外部[https://unpkg.com/vue@3/dist/vue.global.js] 改調用內部版本-->
+
+  <title>Vue Form Demo</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      padding:20px;
+    }
+
+    .row{
+      margin-bottom:10px;
+    }
+
+    label{
+      display:inline-block;
+      width:120px;
+    }
+
+    input, select{
+      width:200px;
+    }
+
+    .error{
+      color:red;
+    }
+
+    .success{
+      color:green;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="app">
+
+  <h2>User Form</h2>
+
+  <!-- UID -->
+  <div class="row">
+    <label>UID：</label>
+    <input type="number" v-model="user.uid">
+  </div>
+
+  <!-- Name -->
+  <div class="row">
+    <label>Name：</label>
+    <input type="text" v-model="user.name">
+  </div>
+
+  <!-- Sex -->
+  <div class="row">
+    <label>Sex：</label>
+
+    <select v-model="user.sex">
+      <option value="">請選擇</option>
+      <option value="1">Male</option>
+      <option value="2">Female</option>
+    </select>
+  </div>
+
+  <!-- Email -->
+  <div class="row">
+    <label>Email：</label>
+    <input type="email" v-model="user.email">
+  </div>
+
+  <!-- Phone -->
+  <div class="row">
+    <label>Phone：</label>
+    <input type="text" v-model="user.phone">
+  </div>
+
+  <!-- Address -->
+  <div class="row">
+    <label>Address：</label>
+    <input type="text" v-model="user.address">
+  </div>
+
+  <!-- Status -->
+  <div class="row">
+    <label>Status：</label>
+
+    <select v-model="user.status">
+      <option value="1">有效</option>
+      <option value="0">無效</option>
+    </select>
+  </div>
+
+  <!-- 按鈕 -->
+  <div class="row">
+
+    <button @click="CheckData">
+      儲存
+    </button>
+
+    <button @click="ResetData">
+      重置
+    </button>
+    <button @click="AAA">console-AAA</button>
+    <button @click="BBB">alert-BBB</button>
+
+  </div>
+
+  <!-- 錯誤訊息 -->
+  <div class="error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- 成功訊息 -->
+  <div class="success">
+    {{ successMessage }}
+  </div>
+
+  <hr>
+
+  <h3>目前 User Object：</h3>
+
+  <pre>
+{{ user }}
+  </pre>
+
+</div>
+
+<script src="./BaseJS.js"></script>
+
+</body>
+</html>
