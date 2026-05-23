@@ -129,7 +129,7 @@ AAA()
 BBB()
 {
   alert('BBB');
-},///BBB -END
+},///BBB -END-','號可加可不加
 
 
 } ////method--結尾

@@ -49,18 +49,21 @@ public/
    │     └─ reg_by_dep.js		← 依科別掛號JS
    │
    ├─ admin/					← 管理者-管理作業
-   │      ├─ pages/
-   │      │  ├─ admin_maintain.html	← 管理者-維護作業-舊版[停用/參考]
-   │      │  ├─ admin_index.html	← 管理者-維護作業-新版
-   │      │  ├─ admin_dbcheck.html	← 資料表檢核
-   │      │  ├─ admin_dbviewer.html	← Data + Schema 展示
-   │      └─ js/
-   │         ├─ admin_config.js		← 設定admin_頁面 js載入
-   │         ├─ maintain.js			← 管理者舊版dmin_maintain.html頁面Js
-   │         ├─ db-checker.js		← 資料檢核邏輯js
-   │         ├─ admin_dbviewer.js 	← 資料檔案檢視js
-   │         └─ admin_loader.js 	← 處理動態載入新版admin作業js（依序）
-   │         
+   │     ├─ pages/
+   │     │  ├─ admin_maintain.html	← 管理者-維護作業-舊版[停用/參考]
+   │     │  ├─ admin_index.html	← 管理者-維護作業-新版
+   │     │  ├─ admin_dbcheck.html	← 資料表檢核
+   │     │  ├─ admin_dbviewer.html	← Data + Schema 展示
+   │     └─ js/
+   │        ├─ admin_config.js		← 設定admin_頁面 js載入
+   │        ├─ maintain.js			← 管理者舊版dmin_maintain.html頁面Js
+   │        ├─ db-checker.js		← 資料檢核邏輯js
+   │        ├─ admin_dbviewer.js 	← 資料檔案檢視js
+   │        └─ admin_loader.js 	← 處理動態載入新版admin作業js（依序）
+   ├─ DevTest/					← /練習/學習用 
+   │   ├─Vuebasic.html  ←練習頁面
+   │   └─ BaseJS.js     ←練習頁面jS
+   │    
    └─ html/ 
 		└login.html				←專案主要入口/ HIS 登入主頁	
 
@@ -94,4 +97,4 @@ public/
 -資料 JOIN 發生在前端
 
 
-更新日期-20260401
+更新日期-20260523
