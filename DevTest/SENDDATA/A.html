@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>A 網頁 (主控制框)</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .block { border: 2px solid #007bff; padding: 15px; background: white; border-radius: 5px; }
+        .sub-block { border: 1px dashed #ccc; padding: 15px; margin-top: 10px; background: #fafafa; }
+        .bottom-block { border: 2px solid #333; padding: 15px; background: #e9e9e9; text-align: center; margin-top: 20px; }
+        button { padding: 5px 15px; cursor: pointer; }
+    </style>
+    <!-- 功能 A：利用 ESM 載入 B 與 C 網頁的元件檔案 -->
+    <script type="module" src="./B_component.js"></script>
+    <script type="module" src="./C_component.js"></script>
+</head>
+<body>
+
+    <div id="pageA" class="block">
+        <h2>A 網頁 (主控制框)</h2>
+        
+        <div class="container">
+            <!-- 左區塊：功能A - 載入 B 網頁 -->
+            <div class="block" style="border-color: #ccc;">
+                <h3>左區塊</h3>
+                <label id="infoA">infoA: 等待 B 發送...</label>
+                <div class="sub-block">
+                    <!-- 直接渲染 B 網頁，不使用 iframe -->
+                    <page-b></page-b>
+                </div>
+            </div>
+            
+            <!-- 右區塊：功能A - 載入 C 網頁 -->
+            <div class="block" style="border-color: #ccc;">
+                <h3>右區塊</h3>
+                <label id="infoB">infoB: 右框架標籤</label>
+                <div class="sub-block">
+                    <!-- 直接渲染 C 網頁，不使用 iframe -->
+                    <page-c></page-c>
+                </div>
+            </div>
+        </div>
+
+        <!-- 下區塊：合併框架置中 -->
+        <div class="bottom-block">
+            <h3>下區塊 (合併框架置中)</h3>
+            <button id="Send">Send</button>
+            <span id="infoC" style="margin-left: 20px; color: #dc3545; font-weight: bold;">infoC 狀態</span>
+        </div>
+    </div>
+
+    <script>
+        // 功能 C：點選 button id=Send，向全域廣播，不檢查 B、C 是否存在
+        document.getElementById('Send').addEventListener('click', () => {
+            const event = new CustomEvent('broadcast-from-a');
+            window.dispatchEvent(event);
+        });
+    </script>
+</body>
+</html>

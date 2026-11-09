@@ -27,9 +27,14 @@ Vue.createApp({
         address:'',
         status:'1'
       },
+      OPD:{
+
+      },
 
       errorMessage:'',
-      successMessage:''
+      successMessage:'',
+      TESTA:'666',
+      TESTB:"BBBB"
 
     }////return--結尾
 
@@ -130,6 +135,8 @@ BBB()
 {
   alert('BBB');
 },///BBB -END-','號可加可不加
+
+
 
 
 } ////method--結尾

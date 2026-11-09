@@ -8,21 +8,56 @@
   <link rel="stylesheet" href="../../common/css/layout.css">
   <link rel="stylesheet" href="../../common/css/components.css">
   <link rel="stylesheet" href="../../common/css/util.css">
-  <!-- 管理頁專用樣式 -->
+  <!-- 排班頁專用樣式 -->
 <link rel="stylesheet" href="../css/schedule.css">
+<!-- Service -->
+
+<!-- Vue -->
+<script src="../../common/js/vue.global.prod.js"></script>
+
+<!-- utilities -->
+<script src="../../common/js/utilities.js"></script>
+<!--本頁JS--->
+<script src="../js/schedule.js"></script>
 
 
 </head>
 
-<body>
-<table border="2" style="width: min-content;">
-  <tr>
-    <td>A</td> 
-    <td>B</td>
-    <td>C</td>
-  </tr>
-  <tr>
-    <td colspan="3" onclick="alert('功能開發中')"><button>none</button></td>
-  </tr>
-</table>
+<body id="app">
+
+<div id="menu">
+<a>Menu</a>
+</div>
+
+<div id="main">
+  <table>
+    <tr>
+      <td>
+        <select>
+          <option>
+            123
+          </option>
+        </select>
+      </td>
+      <td><a>456</a></td>
+    </tr>
+  </table>
+<a>main</a>
+
+
+<div>
+    <!-- 使用 v-model 綁定選取的值 -->
+    <select v-model="selectedValue">
+      <option v-for="item in MenuList" :key="item.ID" :value="item.value">
+        {{ item.ID }}
+      </option>
+    </select>
+
+    <p>你選擇的是：{{ selectedValue }}</p>
+  </div>
+
+
+</div><!---app範圍結尾-->
+
+
 </body>

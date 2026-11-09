@@ -1,0 +1,568 @@
+HIS 新功能開發快速開場模板 Ver2
+
+我目前正在 HIS 專案中開發「新功能 / 新模組」。
+例如：
+排班排程作業
+醫令作業
+護理作業
+其他 HIS 功能
+
+請以我目前 HIS 專案已建立的架構與開發習慣為基礎協助我。
+
+這不是一個全新專案，請優先「沿用既有能力、最小必要修改」，不要任意重新設計整套架構。
+
+
+一、HIS 核心開發原則
+
+請遵守以下原則：
+
+Single Source of Truth
+Guarded Flow
+Operational Visibility
+User Visual Feedback
+Decoupling
+完整模組邊界
+Minimal Necessary Change
+
+尤其避免：
+
+重複實作既有共用功能
+為了小功能建立過度複雜架構
+沒確認現況就重寫程式
+不必要地新增 Loader / Router / Service
+讓不同模組互相耦合
+
+二、目前技術環境
+
+HIS 目前使用：
+
+Vanilla JavaScript
+Vue 3
+TypeScript（部分專案）
+JSON 作為目前模擬資料
+GitHub Pages
+Vue 使用本地版本：
+<script src="../../common/js/vue.global.prod.js"></script>
+
+不預設使用 CDN。
+
+
+三、共用工具
+
+共用工具主要位於：
+
+HIS/common/
+
+例如：
+
+utilities.js
+modal.js
+Calendar
+Condition Engine
+Schedule Engine
+其他共用工具
+
+
+
+其中：
+
+HIS.util.loadJSON(...)
+
+是目前主要資料讀取方式。
+
+四、utilities.js 使用規則
+
+utilities.js 是：
+
+環境與資源路徑的 Single Source of Truth
+
+因此：
+
+不自行處理 GitHub Pages /ReactTypeScript/HIS
+不重複加入 BASE / ROOT
+不自行建立另一套路徑判斷
+不大量使用 ../ / ../../
+優先使用既有 utility
+
+如果 loadJSON() 已經負責 BASE 組合，呼叫端不要再次加入 BASE。
+
+例如應依目前 utilities.js 的實際規則提供：
+
+HIS.util.loadJSON("/DB/xxx.json");
+
+而不是自行組：
+
+`${BASE}/DB/xxx.json`
+
+實際寫法以目前專案中的 utilities.js 為準。
+
+
+五、不要假設 JSON 一定有 success
+
+HIS 中要區分：
+
+一般靜態 JSON
+
+例如：
+
+[
+    {},
+    {}
+]
+
+不要直接寫：
+
+res.success
+ResultData
+
+系統處理結果才可能使用：
+
+{
+    success,
+    errorCode,
+    message,
+    data
+}
+
+因此：
+
+不要把一般 JSON 與 ResultData 混為一談。
+
+
+
+六、Data 與 Schema 分離
+
+如果功能涉及 Schema：
+
+DB/*.json
+
+代表實際資料。
+
+DB/schema/*.json
+
+代表資料結構 / 欄位定義。
+
+不要把 Data 當 Schema。
+
+也不要為了方便讓程式自動猜：
+
+「如果 Schema 格式不對，就拿 Data 自動產 Schema」
+
+除非我明確要求。
+
+
+七、Vue 開發習慣
+
+Vue 頁面優先採：
+
+(() => {
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                list: [],
+                data: {},
+                errorMsg: ""
+            };
+        },
+
+        methods: {
+            // ...
+        },
+
+        mounted() {
+            // init
+        }
+    });
+
+    window.__vue_app__ = app;
+
+    app.mount("#app");
+
+})();
+
+希望維持：
+
+IIFE
+避免全域污染
+陣列安全初始值 []
+物件安全初始值 {}
+必要時使用 Array.isArray()
+Vue 負責 Vue 控制的畫面
+不混用大量原生 DOM 操作
+
+
+
+八、Vue 與 DOM
+
+如果畫面使用：
+
+v-model
+v-for
+v-if
+v-show
+@click
+
+則優先使用 Vue 控制畫面。
+
+避免同一區域同時大量使用：
+
+document.getElementById(...)
+querySelector(...)
+innerHTML = ...
+
+除非有明確理由。
+
+九、日期規則
+
+HIS 業務日期統一：
+
+YYYY-MM-DD
+
+例如：
+
+2026-08-20
+
+日期比較直接使用字串。
+
+不要把業務日期直接當成：
+
+new Date("YYYY-MM-DD")
+
+來處理。
+
+Date 可以使用於：
+
+今天日期
+日期加減
+到期日
+倒數
+真正時間點
+
+
+十、模組設計
+
+每個模組應有清楚責任。
+
+例如：
+
+Calendar
+Schedule
+Doctor
+Department
+Noon
+Condition
+Modal
+Utility
+
+再由上層功能組合。
+
+例如：
+
+排班作業
+   ↓
+Calendar
+Schedule
+Doctor
+Department
+Noon
+
+不要讓排班頁面自己重新實作：
+
+日期處理
+醫師資料處理
+午別資料處理
+共用 Modal
+JSON 路徑處理
+
+十一、Service / Engine 不要為了形式而建立
+
+不是所有功能都必須：
+
+UI
+ ↓
+Service
+ ↓
+Repository
+ ↓
+API
+
+如果目前：
+
+HIS.util.loadJSON(...)
+
+已經足夠，就直接使用。
+
+只有在出現：
+
+多頁面重複使用
+複雜資料轉換
+共用商業規則
+API 邏輯
+複雜驗證
+明確需要集中管理
+
+時，再考慮建立：
+
+Service
+Engine
+
+原則：
+
+有責任才抽象，不為抽象而抽象。
+
+十二、Loader / Router
+
+目前預設：
+
+Standalone 優先。
+
+簡單頁面直接：
+
+<script src="xxx.js"></script>
+
+即可。
+
+不要為了新功能預設建立：
+
+loader.js
+router.js
+
+只有在實際需求出現：
+
+多頁面動態載入
+複雜模組切換
+script 管理
+明確路由需求
+
+時才加入。
+
+
+
+十三、開發流程
+
+新增功能時，希望按照：
+
+① 了解需求
+↓
+② 確認現有資料
+↓
+③ 確認現有共用功能
+↓
+④ 確定責任歸屬
+↓
+⑤ 設計資料流
+↓
+⑥ 再決定修改哪個檔案
+↓
+⑦ 最小必要修改
+↓
+⑧ 測試
+↓
+⑨ 再進行下一階段
+
+不要一開始就大量改檔案。
+
+十四、如果我提供現有程式
+
+如果我提供：
+
+HTML
+JS
+JSON
+URL
+Console Log
+錯誤訊息
+現有畫面
+
+請優先依照「實際版本」分析。
+
+不要只依照我描述的架構猜測。
+
+如果需要確認現況：
+
+先檢查實際程式，再提出修改方案。
+
+
+
+十五、修改程式時的回答方式
+
+如果是較大的功能：
+
+先說明：
+
+目前架構
+↓
+問題
+↓
+建議方案
+↓
+資料流
+↓
+修改檔案
+↓
+程式碼
+↓
+測試方式
+
+如果只是小修改：
+
+修改檔案：
+xxx.js
+
+修改位置：
+xxx function
+
+修改原因：
+xxx
+
+然後提供必要的程式碼。
+
+十六、我偏好的學習方式
+
+我使用 C# / OOP 的思維學習 JavaScript / Vue。
+
+因此如果適合，請用類似：
+
+C# 概念
+↓
+JavaScript 對應
+↓
+Vue 對應
+
+方式說明。
+
+例如：
+
+C# class
+→ JS class / object
+
+C# property
+→ JS object property
+
+C# method
+→ JS method
+
+C# inheritance
+→ JS class extends
+
+ViewModel
+→ Vue data / ViewModel
+
+Event
+→ Vue @click / @change
+
+但不要為了類比而硬套。
+
+如果兩者原理不同，請明確說明差異。
+
+
+十七、我希望看到「資料流」
+
+功能設計時，請盡量說明：
+
+使用者操作
+ ↓
+Vue Event
+ ↓
+功能方法
+ ↓
+資料讀取
+ ↓
+資料處理
+ ↓
+ViewModel
+ ↓
+Vue Binding
+ ↓
+畫面
+
+如果有 Engine / Service：
+
+UI
+ ↓
+Feature JS
+ ↓
+Engine / Service
+ ↓
+Utility
+ ↓
+Data / API
+
+讓我可以理解：
+
+「這段程式為什麼放在這裡？」
+
+而不只是知道：
+
+「這段程式可以跑。」
+
+十八、開發哲學
+
+我的 HIS 開發方向不是追求一次做出非常大型的架構。
+
+而是：
+
+先可運作
+   ↓
+再可理解
+   ↓
+再可驗證
+   ↓
+再可重複使用
+   ↓
+再可擴充
+
+因此請優先：
+
+清楚、穩定、可維護、責任明確。
+
+而不是：
+
+一開始就過度抽象、過度框架化。
+
+
+十九、目前新功能的基本資訊
+
+本次要開發：
+
+功能名稱：
+
+【在這裡填寫】
+
+功能目的：
+
+【在這裡填寫】
+
+入口頁面：
+
+【在這裡填寫】
+
+使用資料：
+
+【在這裡填寫 JSON / API】
+
+目前已完成：
+
+【在這裡填寫】
+
+這次希望新增：
+
+【在這裡填寫】
+
+暫時不要修改：
+
+【在這裡填寫】
+
+二十、開始前
+
+請先根據以上資訊：
+
+確認你理解目前 HIS 的開發原則
+分析這次功能與既有模組的關係
+找出可以直接重用的功能
+判斷哪些地方真的需要新增
+先提出架構 / 資料流
+再開始實作
+
+不要在尚未確認現況前直接大幅改寫。
